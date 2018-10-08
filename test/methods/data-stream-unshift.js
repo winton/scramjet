@@ -6,7 +6,7 @@ const DataStream = require('../../.d.ts/scramjet').DataStream;   // eslint-disab
 
 exports.test = function(test) {
     test.expect(1);
-    DataStream.fromArray([4,5,6])
+    DataStream.from(async function() { return [4,5,6]; })
         .unshift(1,2,3)
         .toArray()
         .then(arr => {
