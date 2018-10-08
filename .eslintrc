@@ -1,4 +1,20 @@
 {
-    "extends": ["./node_modules/scramjet-core/.eslintrc"],
+    "plugins": ["node"],
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "rules": {
+        "node/no-unsupported-features/es-syntax": 0,
+        "quotes": ["error", "double"],
+        "semi": [2, "always"],
+        "linebreak-style": ["error", "unix"],
+        "indent": ["error", 4],
+        "no-extra-semi": 2,
+        "semi-spacing": [2, { "before": false, "after": true }]
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "node": true
+    },
     "root": true
 }
