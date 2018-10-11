@@ -2817,9 +2817,11 @@ class NumberStream$1 extends DataStream$1 {
 
 }
 
+exports.ScramjetStream = scramjetCore.ScramjetStream;
 exports.DataStream = DataStream$1;
 exports.StringStream = StringStream;
 exports.BufferStream = BufferStream;
 exports.WindowStream = WindowStream;
 exports.MultiStream = MultiStream;
 exports.NumberStream = NumberStream$1;
+exports.StreamError = StreamError;

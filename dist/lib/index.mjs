@@ -1,4 +1,5 @@
 import { PromiseTransformStream, ScramjetStream } from 'scramjet-core';
+export { ScramjetStream } from 'scramjet-core';
 import { EventEmitter } from 'events';
 import os, { EOL, cpus } from 'os';
 import { dirname, resolve } from 'path';
@@ -2810,4 +2811,4 @@ class NumberStream$1 extends DataStream$1 {
 
 }
 
-export { DataStream$1 as DataStream, StringStream, BufferStream, WindowStream, MultiStream, NumberStream$1 as NumberStream };
+export { DataStream$1 as DataStream, StringStream, BufferStream, WindowStream, MultiStream, NumberStream$1 as NumberStream, StreamError };

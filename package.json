@@ -38,11 +38,12 @@
     "parser"
   ],
   "scripts": {
-    "test": "gulp fulltest",
-    "quicktest": "gulp test",
+    "build": "rollup -c ./.config/rollup-build.js",
+    "test": "npm run build && gulp fulltest",
+    "quicktest": "npm run build && gulp test",
+    "preversion": "npm run build && gulp prerelease",
     "docs": "gulp docs",
-    "lint": "gulp lint",
-    "preversion": "gulp prerelease"
+    "lint": "gulp lint"
   },
   "homepage": "https://scramjet.eu/",
   "repository": {
