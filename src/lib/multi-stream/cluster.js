@@ -35,3 +35,4 @@ MultiStream.prototype.cluster = function cluster(clusterFunc, {plugins = [], thr
 
     return out;
 };
+

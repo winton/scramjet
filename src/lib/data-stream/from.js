@@ -1,5 +1,5 @@
-import {DataStream} from "./";
-import {StreamError} from "../errors";
+import { DataStream } from "./";
+import { StreamError } from "../errors";
 import { Readable } from "stream";
 import { GeneratorFunction, AsyncGeneratorFunction, pipeIfTarget } from "../util";
 

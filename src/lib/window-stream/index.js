@@ -8,6 +8,7 @@ const {NumberStream} = require("./");
  *
  * @extends DataStream
  */
-class WindowStream extends NumberStream {}
+export class WindowStream extends NumberStream {}
 
-module.exports = WindowStream;
+import "./avg";
+import "./sum";

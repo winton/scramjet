@@ -37,3 +37,53 @@ export class DataStream extends ScramjetStream {
     }
 
 }
+
+import "./accumulate";
+import "./consume";
+import "./do";
+import "./flat-map";
+import "./map";
+import "./reduce-now";
+import "./separate-into";
+import "./time-batch";
+import "./unshift";
+import "./assign";
+import "./csv-stringify";
+import "./each";
+import "./flatten";
+import "./into";
+import "./nagle";
+import "./remap";
+import "./shift";
+import "./to-array";
+import "./until";
+import "./batch";
+import "./debug";
+import "./empty";
+import "./from";
+import "./join";
+import "./peek";
+import "./rewind";
+import "./slice";
+import "./to-generator";
+import "./use";
+import "./bufferify";
+import "./delegate";
+import "./end-with";
+import "./from-array";
+import "./json-stringify";
+import "./pull";
+import "./run";
+import "./stringify";
+import "./to-json-array";
+import "./while";
+import "./concat";
+import "./distribute";
+import "./filter";
+import "./from-iterator";
+import "./keep";
+import "./reduce";
+import "./separate";
+import "./tee";
+import "./to-json-object";
+import "./window";

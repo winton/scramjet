@@ -39,3 +39,14 @@ export class MultiStream extends EventEmitter {
     }
 
 }
+
+import "./add";
+import "./cluster";
+import "./each";
+import "./filter";
+import "./find";
+import "./map";
+import "./mux";
+import "./remove";
+import "./route";
+import "./smap";

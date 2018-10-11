@@ -1,6 +1,6 @@
 import {MultiStream} from "./";
 import { DataStream } from "../data-stream";
-import {mergesortStream} from "../util/merge-sort";
+import {mergesortStream} from "../util/merge-sort-stream";
 const OUT = Symbol("output stream");
 
 /**

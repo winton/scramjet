@@ -1,4 +1,4 @@
-import {DataStream} from "./";
+import {DataStream} from ".";
 
 /**
  * Create a DataStream from an Iterator
@@ -10,7 +10,7 @@ import {DataStream} from "./";
  *
  * @example {@link ../samples/data-stream-fromiterator.js}
  */
-DataStream.prototype.fromIterator =  function fromIterator(iter, options) {
+DataStream.fromIterator =  function fromIterator(iter, options) {
     return new this(Object.assign({}, options, {
         async parallelRead() {
             const read = await iter.next();

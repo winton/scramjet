@@ -1,4 +1,4 @@
-import {DataStream} from "./";
+import {DataStream} from ".";
 
 /**
  * Create a DataStream from an Array
@@ -8,7 +8,7 @@ import {DataStream} from "./";
  *
  * @example {@link ../samples/data-stream-fromarray.js}
  */
-DataStream.prototype.fromArray = function fromArray(arr, options) {
+DataStream.fromArray = function fromArray(arr, options) {
     const ret = new this(options);
     arr = arr.slice();
     arr.forEach((item) => ret.write(item));
