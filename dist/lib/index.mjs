@@ -32,9 +32,9 @@ import net from 'net';
  *
  * @example {@link ../samples/data-stream-accumulate.js}
  */
-DataStream$1.prototype.accumulate = async function accumulate(func, into) {
+DataStream.prototype.accumulate = async function accumulate(func, into) {
     return new Promise((res, rej) => {
-        const bound = async (chunk) => (await func(into, chunk), Promise.reject(DataStream$1.filter));
+        const bound = async (chunk) => (await func(into, chunk), Promise.reject(DataStream.filter));
         bound.to = func;
 
         this.tap().pipe(new PromiseTransformStream({ // TODO:
@@ -62,7 +62,7 @@ DataStream$1.prototype.accumulate = async function accumulate(func, into) {
  * @param  {Function}  func the consument
  * @meta.noreadme
  */
-DataStream$1.prototype.consume = async function consume(func) {
+DataStream.prototype.consume = async function consume(func) {
     return this.tap()
         .each(func)
         .whenEnd();
@@ -83,7 +83,7 @@ DataStream$1.prototype.consume = async function consume(func) {
  * @chainable
  * @param {DoCallback} func the async function
  */
-DataStream$1.prototype.do = function(func) {
+DataStream.prototype.do = function(func) {
     return this.map(async (chunk) => (await func(chunk), chunk));
 };
 
@@ -103,7 +103,7 @@ DataStream$1.prototype.do = function(func) {
  *
  * @example {@link ../samples/data-stream-flatmap.js}
  */
-DataStream$1.prototype.flatMap = function flatMap(func, Clazz = DataStream$1) {
+DataStream.prototype.flatMap = function flatMap(func, Clazz = DataStream) {
     const ref = new Clazz({referrer: this});
 
     return this.into(
@@ -142,7 +142,7 @@ DataStream$1.prototype.flatMap = function flatMap(func, Clazz = DataStream$1) {
  *
  * @example {@link ../samples/data-stream-map.js}
  */
-DataStream$1.prototype.map = function (func, Clazz) {
+DataStream.prototype.map = function (func, Clazz) {
     Clazz = Clazz || this.constructor;
     return this.pipe(new Clazz({
         promiseTransform: func,
@@ -174,7 +174,7 @@ DataStream$1.prototype.map = function (func, Clazz) {
  *
  * @example {@link ../samples/data-stream-reduceNow.js}
  */
-DataStream$1.prototype.reduceNow = function reduceNow(func, into) {
+DataStream.prototype.reduceNow = function reduceNow(func, into) {
     const prm = this.reduce(func, into);
 
     if (into instanceof EventEmitter) {
@@ -193,7 +193,7 @@ DataStream$1.prototype.reduceNow = function reduceNow(func, into) {
  * @param {Object<DataStream>} streams the object hash of streams. Keys must be the outputs of the affinity function
  * @param {AffinityCallback} affinity the callback function that affixes the item to specific streams which must exist in the object for each chunk.
  */
-DataStream$1.prototype.separateInto = function separateInto(streams, affinity) {
+DataStream.prototype.separateInto = function separateInto(streams, affinity) {
     this.consume(
         async (chunk) => {
             const streamId = await affinity(chunk);
@@ -220,7 +220,7 @@ DataStream$1.prototype.separateInto = function separateInto(streams, affinity) {
  *
  * @example {@link ../samples/data-stream-timebatch.js}
  */
-DataStream$1.prototype.timeBatch = function timeBatch(ms, count = Infinity) {
+DataStream.prototype.timeBatch = function timeBatch(ms, count = Infinity) {
     let arr = [];
 
     const setTimeout = this.setTimeout;
@@ -267,7 +267,7 @@ DataStream$1.prototype.timeBatch = function timeBatch(ms, count = Infinity) {
  * @memberof DataStream#
  * @param {*} item list of items to unshift (you can pass more items)
  */
-DataStream$1.prototype.unshift = function unshift(...items) {
+DataStream.prototype.unshift = function unshift(...items) {
     items.forEach(
         item => this.write(item)
     );
@@ -286,7 +286,7 @@ DataStream$1.prototype.unshift = function unshift(...items) {
  *
  * @example {@link ../samples/data-stream-assign.js}
  */
-DataStream$1.prototype.assign = function assign(func) {
+DataStream.prototype.assign = function assign(func) {
     if (typeof func === "function") {
         return this.map(
             (chunk) => Promise.resolve(func(chunk))
@@ -355,7 +355,7 @@ BufferStream.prototype.breakup = function breakup(number) {
  * @return {BufferStream}          new StringStream.
  */
 BufferStream.from = function from(...args) {
-    return DataStream$1.from.call(this, ...args);
+    return DataStream.from.call(this, ...args);
 };
 
 /**
@@ -375,7 +375,7 @@ BufferStream.from = function from(...args) {
  * @example {@link ../samples/buffer-stream-parse.js}
  */
 BufferStream.prototype.parse = function parse(parser) {
-    return this.tap().map(parser, DataStream$1);
+    return this.tap().map(parser, DataStream);
 };
 
 /**
@@ -520,7 +520,7 @@ BufferStream.prototype.stringify = function stringify(encoding) {
  *
  * @extends DataStream
  */
-class BufferStream extends DataStream$1 {
+class BufferStream extends DataStream {
 
     /**
      * Creates the BufferStream
@@ -574,7 +574,7 @@ StringStream.prototype.toBufferStream =  function toBufferStream() {
  * @example {@link ../samples/data-stream-separate.js}
  */
 StringStream.prototype.CSVParse = function CSVParse(options = {}) {
-    const out = new DataStream$1();
+    const out = new DataStream();
     require("papaparse").parse(this, Object.assign(options, {
         chunk: async ({data, errors}, parser) => {
             if (errors.length) {
@@ -609,7 +609,7 @@ StringStream.prototype.CSVParse = function CSVParse(options = {}) {
  */
 StringStream.prototype.from =  function from(source, options, ...args) {
     try {
-        return DataStream$1.from.call(this, source, options, ...args);
+        return DataStream.from.call(this, source, options, ...args);
     } catch(e) {
         if (typeof source === "string") {
             return this.fromString(source);
@@ -713,7 +713,7 @@ StringStream.prototype.match = function match(matcher) {
  *
  * @example {@link ../samples/string-stream-parse.js}
  */
-StringStream.prototype.parse =  function parse(parser, Clazz = DataStream$1) {
+StringStream.prototype.parse =  function parse(parser, Clazz = DataStream) {
     return this.tap().map(parser, Clazz);
 };
 
@@ -729,6 +729,60 @@ StringStream.prototype.parse =  function parse(parser, Clazz = DataStream$1) {
  */
 StringStream.prototype.prepend = function prepend(arg) {
     return typeof arg === "function" ? this.map(item => Promise.resolve(item).then(arg).then((result) => result + item)) : this.map(item => arg + item);
+};
+
+/**
+ * Finds matches in the string stream and streams the match results
+ *
+ * @chainable
+ * @param  {RegExp} matcher A function that will be called for every
+ *                             stream chunk.
+ *
+ * @example {@link ../samples/string-stream-match.js}
+ */
+StringStream.prototype.replace = function replace(needle, replacement, {windowSize = -2} = {}) {
+    let replacing = "";
+    let fullIndex = 0;
+
+    if (windowSize < 0) {
+        windowSize = `${needle}`.length * -windowSize;
+    }
+
+    // if regex with global?
+
+    this.pipe(new this.constructor({
+        promiseTransform(chunk) {
+
+            const oldLength = replacing.length - windowSize;
+            replacing += chunk;
+            const match = replacing.match(needle);
+
+            if (match) {
+                const prev = replacing.slice(0, oldLength);
+                replacing = replacing.slice(oldLength);
+                return prev;
+            } else {
+                const newIndex = match ? match.index : -1;
+                const prev = replacing.slice(0, newIndex);
+                const advance = newIndex + match[0].length;
+                fullIndex += advance;
+
+                let after;
+                if (typeof replacement === "function") {
+                    after = replacement(...match, fullIndex, this);
+                } else {
+                    after = replacement;
+                }
+
+                replacing = replacing.slice(advance);
+
+                return prev + after;
+            }
+        },
+        promiseFlush() {
+            return replacing.replace(needle, replacement);
+        }
+    }));
 };
 
 /**
@@ -855,7 +909,7 @@ StringStream.prototype.toStringStream = function toStringStream(encoding) {
  * @extends DataStream
  * @borrows StringStream#shift as StringStream#pop
  */
-class StringStream extends DataStream$1 {
+class StringStream extends DataStream {
     /**
      * Constructs the stream with the given encoding
      *
@@ -896,7 +950,7 @@ class StringStream extends DataStream$1 {
  *
  * @example {@link ../samples/data-stream-csv.js}
  */
-DataStream$1.prototype.CSVStringify = function CSVStringify(options = {}) {
+DataStream.prototype.CSVStringify = function CSVStringify(options = {}) {
     const Papa = require("papaparse");
     let header = null;
     let start = 1;
@@ -939,7 +993,7 @@ DataStream$1.prototype.CSVStringify = function CSVStringify(options = {}) {
  * @chainable
  * @param  {MapCallback} func a callback called for each chunk.
  */
-DataStream$1.prototype.each = function (func) {
+DataStream.prototype.each = function (func) {
     return this.tap().map(
         (a) => Promise.resolve(func(a))
             .then(() => a)
@@ -957,7 +1011,7 @@ DataStream$1.prototype.each = function (func) {
  *
  * @example {@link ../samples/data-stream-flatten.js}
  */
-DataStream$1.prototype.flatten = function flatten() {
+DataStream.prototype.flatten = function flatten() {
     return this.into(
         async (ref, out) => {
             let last = true;
@@ -993,8 +1047,8 @@ DataStream$1.prototype.flatten = function flatten() {
  *
  * @example {@link ../samples/data-stream-into.js}
  */
-DataStream$1.prototype.into = function (func, into) {
-    if (!(into instanceof DataStream$1)) throw new Error("Stream must be passed!");
+DataStream.prototype.into = function (func, into) {
+    if (!(into instanceof DataStream)) throw new Error("Stream must be passed!");
 
     if (!into._options.referrer)
         into.setOptions({referrer: this});
@@ -1028,7 +1082,7 @@ DataStream$1.prototype.into = function (func, into) {
  * @chainable
  * @meta.noreadme
  */
-DataStream$1.prototype.nagle = function nagle(size = 32, ms = 10) {
+DataStream.prototype.nagle = function nagle(size = 32, ms = 10) {
     return this.timeBatch(size, ms)
         .flatten();
 };
@@ -1054,7 +1108,7 @@ DataStream$1.prototype.nagle = function nagle(size = 32, ms = 10) {
  *
  * @example {@link ../samples/data-stream-remap.js}
  */
-DataStream$1.prototype.remap = function remap(func, Clazz) {
+DataStream.prototype.remap = function remap(func, Clazz) {
 
     const ref = new (Clazz || this.constructor)({referrer: this});
 
@@ -1090,7 +1144,7 @@ DataStream$1.prototype.remap = function remap(func, Clazz) {
  *
  * @example {@link ../samples/data-stream-shift.js}
  */
-DataStream$1.prototype.shift = function shift(count, func) {
+DataStream.prototype.shift = function shift(count, func) {
     const ret = [];
     const str = this.tap()._selfInstance({referrer: this});
 
@@ -1140,7 +1194,7 @@ DataStream$1.prototype.shift = function shift(count, func) {
  * @param  {Array} initial Optional array to begin with.
  * @returns {Array}
  */
-DataStream$1.prototype.toArray =  function toArray(initial) {
+DataStream.prototype.toArray =  function toArray(initial) {
     return this.reduce(
         (arr, item) => (arr.push(item), arr),
         initial || []
@@ -1157,7 +1211,7 @@ DataStream$1.prototype.toArray =  function toArray(initial) {
  *
  * @example {@link ../samples/data-stream-until.js}
  */
-DataStream$1.prototype.until = function(func) {
+DataStream.prototype.until = function(func) {
     return this.while((...args) => Promise.resolve(func(...args)).then((a) => !a));
 };
 
@@ -1172,7 +1226,7 @@ DataStream$1.prototype.until = function(func) {
  *
  * @example {@link ../samples/data-stream-batch.js}
  */
-DataStream$1.prototype.batch = function batch(count) {
+DataStream.prototype.batch = function batch(count) {
     let arr = [];
 
     const ret = this.tap().pipe(new this.constructor({
@@ -1183,7 +1237,7 @@ DataStream$1.prototype.batch = function batch(count) {
                 arr = [];
                 return push;
             }
-            return Promise.reject(DataStream$1.filter);
+            return Promise.reject(DataStream.filter);
         },
         promiseFlush() {
             if (arr.length > 0) {
@@ -1208,7 +1262,7 @@ DataStream$1.prototype.batch = function batch(count) {
  *
  * @example {@link ../samples/data-stream-debug.js}
  */
-DataStream$1.prototype.debug = function debug(func) {
+DataStream.prototype.debug = function debug(func) {
     debugger; // eslint-disable-line
     this.use(func);
     return this;
@@ -1223,7 +1277,7 @@ DataStream$1.prototype.debug = function debug(func) {
  *
  * @example {@link ../samples/data-stream-empty.js}
  */
-DataStream$1.prototype.empty = function empty(callback) {
+DataStream.prototype.empty = function empty(callback) {
     let z = false;
     const promiseTransform = () => {
         z = true;
@@ -1343,7 +1397,7 @@ const pipeIfTarget = (stream, target) => (target ? stream.pipe(target) : stream)
  * @param {StreamOptions|Writable} options
  * @return {DataStream}
  */
-DataStream$1.from = function(stream, options, ...args) {
+DataStream.from = function(stream, options, ...args) {
     const target = options instanceof this && options;
 
     if (stream instanceof this) {
@@ -1359,7 +1413,7 @@ DataStream$1.from = function(stream, options, ...args) {
             Object.assign(
                 {},
                 options,
-                { referrer: stream instanceof DataStream$1 ? stream : null }
+                { referrer: stream instanceof DataStream ? stream : null }
             )
         );
 
@@ -1411,7 +1465,7 @@ DataStream$1.from = function(stream, options, ...args) {
  *
  * @example {@link ../samples/data-stream-join.js}
  */
-DataStream$1.prototype.join = function join(item) {
+DataStream.prototype.join = function join(item) {
     const ref = this._selfInstance({referrer: this});
 
     let prev;
@@ -1450,7 +1504,7 @@ DataStream$1.prototype.join = function join(item) {
  * @param  {ShiftCallback} func Function called before other streams
  * @chainable
  */
-DataStream$1.prototype.peek = function peek(count, func) {
+DataStream.prototype.peek = function peek(count, func) {
     const ref = this._selfInstance({referrer: this});
 
     this
@@ -1471,7 +1525,7 @@ DataStream$1.prototype.peek = function peek(count, func) {
  * @memberof DataStream#
  * @param {number} count Number of objects or -1 for all the buffer
  */
-DataStream$1.prototype.rewind = function rewind(count = -1) {
+DataStream.prototype.rewind = function rewind(count = -1) {
     if (count < 0)
         count = Infinity;
 
@@ -1499,7 +1553,7 @@ DataStream$1.prototype.rewind = function rewind(count = -1) {
  *
  * @example {@link ../samples/data-stream-slice.js}
  */
-DataStream$1.prototype.slice = function slice(start = 0, length = Infinity) {
+DataStream.prototype.slice = function slice(start = 0, length = Infinity) {
     let n = 0;
     return this.shift(start, () => 0)
         .until(() => n++ >= length);
@@ -1512,7 +1566,7 @@ DataStream$1.prototype.slice = function slice(start = 0, length = Infinity) {
  *
  * @return {Iterable.<Promise.<*>>} Returns an iterator that returns a promise for each item.
  */
-DataStream$1.prototype.toGenerator =  function toGenerator() {
+DataStream.prototype.toGenerator =  function toGenerator() {
     this.tap();
     const ref = this;
     return function* () {
@@ -1537,7 +1591,7 @@ DataStream$1.prototype.toGenerator =  function toGenerator() {
  * @param {*} [...args] any additional args top be passed to the module
  * @example {@link ../samples/data-stream-use.js}
  */
-DataStream$1.prototype.use = function(func, ...args) {
+DataStream.prototype.use = function(func, ...args) {
     switch (typeof func) {
     case "function":
         return func(this, ...args);
@@ -1558,11 +1612,11 @@ DataStream$1.prototype.use = function(func, ...args) {
  *
  * @example {@link ../samples/data-stream-tobufferstream.js}
  */
-DataStream$1.prototype.bufferify = function (serializer) {
+DataStream.prototype.bufferify = function (serializer) {
     return this.map(serializer, BufferStream);
 };
 
-DataStream$1.prototype.toBufferStream = DataStream$1.prototype.bufferify;
+DataStream.prototype.toBufferStream = DataStream.prototype.bufferify;
 
 /**
  * Delegates work to a specified worker.
@@ -1574,7 +1628,7 @@ DataStream$1.prototype.toBufferStream = DataStream$1.prototype.bufferify;
  * @param  {WorkerStream}     worker
  * @param  {Array}            [plugins=[]]
  */
-DataStream$1.prototype.delegate = function delegate(delegateFunc, worker, plugins = []) {
+DataStream.prototype.delegate = function delegate(delegateFunc, worker, plugins = []) {
     const ret = this._selfInstance({referrer: this});
     return worker.delegate(this, delegateFunc, plugins).pipe(ret);
 };
@@ -1589,7 +1643,7 @@ DataStream$1.prototype.delegate = function delegate(delegateFunc, worker, plugin
  *
  * @example {@link ../samples/data-stream-endwith.js}
  */
-DataStream$1.prototype.endWith = function endWith(...items) {
+DataStream.prototype.endWith = function endWith(...items) {
     // TODO: overhead on unneeded transform, but requires changes in core.
     // TODO: should accept similar args as `from`
     return this.pipe(this._selfInstance({
@@ -1600,14 +1654,14 @@ DataStream$1.prototype.endWith = function endWith(...items) {
 };
 
 /**
- * Create a DataStream from an Array
+ * Create a DataStream from an Array.
  *
  * @param  {Array} arr list of chunks
  * @return {DataStream}
  *
  * @example {@link ../samples/data-stream-fromarray.js}
  */
-DataStream$1.fromArray = function fromArray(arr, options) {
+DataStream.fromArray = function fromArray(arr, options) {
     const ret = new this(options);
     arr = arr.slice();
     arr.forEach((item) => ret.write(item));
@@ -1624,7 +1678,7 @@ DataStream$1.fromArray = function fromArray(arr, options) {
  * @param  {Boolean|String} [endline=os.EOL] whether to add endlines (boolean or string as delimiter)
  * @return {StringStream}  output stream
  */
-DataStream$1.prototype.JSONStringify = function JSONStringify(eol = EOL) {
+DataStream.prototype.JSONStringify = function JSONStringify(eol = EOL) {
     if (!eol)
         eol = "";
 
@@ -1643,7 +1697,7 @@ DataStream$1.prototype.JSONStringify = function JSONStringify(eol = EOL) {
  *
  * @example {@include ../samples/data-stream-pull.js}
  */
-DataStream$1.prototype.pull = async function(incoming) {
+DataStream.prototype.pull = async function(incoming) {
     return new Promise((res, rej) => {
         incoming.pipe(this, { end: false });
         incoming.on("end", res);
@@ -1656,7 +1710,7 @@ DataStream$1.prototype.pull = async function(incoming) {
  *
  * @async
  */
-DataStream$1.prototype.run = async function () {
+DataStream.prototype.run = async function () {
     return this.on("data", () => 0).whenEnd();
 };
 
@@ -1669,11 +1723,11 @@ DataStream$1.prototype.run = async function () {
  *
  * @example {@link ../samples/data-stream-tostringstream.js}
  */
-DataStream$1.prototype.stringify =  function stringify(serializer) {
+DataStream.prototype.stringify =  function stringify(serializer) {
     return this.map(serializer, StringStream);
 };
 
-DataStream$1.prototype.toStringStream = DataStream$1.prototype.stringify;
+DataStream.prototype.toStringStream = DataStream.prototype.stringify;
 
 /**
  * Transforms the stream to a streamed JSON array.
@@ -1686,7 +1740,7 @@ DataStream$1.prototype.toStringStream = DataStream$1.prototype.stringify;
  *
  * @example {@link ../samples/data-stream-tojsonarray.js}
  */
-DataStream$1.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\n]"], separator = ",\n", stringify = JSON.stringify) {
+DataStream.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\n]"], separator = ",\n", stringify = JSON.stringify) {
     const ref = new StringStream({referrer: this});
 
     this.shift(1, ([first]) => (ref.push(enclosure[0]), ref.whenWrote(stringify(first))))
@@ -1713,19 +1767,19 @@ DataStream$1.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\
  *
  * @example {@link ../samples/data-stream-while.js}
  */
-DataStream$1.prototype.while = function(func) {
+DataStream.prototype.while = function(func) {
     let condition = true;
     const out = this._selfInstance({
         promiseTransform: func,
-        beforeTransform: (chunk) => condition ? chunk : Promise.reject(DataStream$1.filter),
+        beforeTransform: (chunk) => condition ? chunk : Promise.reject(DataStream.filter),
         afterTransform: (chunk, ret) => {
             if (!ret) {
                 condition = false;
                 this.unpipe(out);
                 out.end();
-                return Promise.reject(DataStream$1.filter);
+                return Promise.reject(DataStream.filter);
             } else {
-                return condition ? chunk : Promise.reject(DataStream$1.filter);
+                return condition ? chunk : Promise.reject(DataStream.filter);
             }
         },
         referrer: this
@@ -1743,7 +1797,7 @@ DataStream$1.prototype.while = function(func) {
  *
  * @example {@link ../samples/data-stream-concat.js}
  */
-DataStream$1.prototype.concat = function concat(...streams) {
+DataStream.prototype.concat = function concat(...streams) {
     const out = this._selfInstance({referrer: this});
 
     streams.unshift(this);
@@ -1773,7 +1827,7 @@ DataStream$1.prototype.concat = function concat(...streams) {
  *
  * @see {@link ../samples/data-stream-distribute.js}
  */
-DataStream$1.prototype.distribute = function distribute(affinity, clusterFunc = null, {
+DataStream.prototype.distribute = function distribute(affinity, clusterFunc = null, {
     plugins = [],
     options = {}
 } = {}) {
@@ -1820,10 +1874,10 @@ DataStream$1.prototype.distribute = function distribute(affinity, clusterFunc = 
  *
  * @example {@link ../samples/data-stream-filter.js}
  */
-DataStream$1.prototype.filter = function (func) {
+DataStream.prototype.filter = function (func) {
     return this.pipe(this._selfInstance({
         promiseTransform: func,
-        afterTransform: (chunk, ret) => ret ? chunk : Promise.reject(DataStream$1.filter),
+        afterTransform: (chunk, ret) => ret ? chunk : Promise.reject(DataStream.filter),
         referrer: this
     }));
 };
@@ -1838,14 +1892,14 @@ DataStream$1.prototype.filter = function (func) {
  *
  * @example {@link ../samples/data-stream-fromiterator.js}
  */
-DataStream$1.fromIterator =  function fromIterator(iter, options) {
+DataStream.fromIterator =  function fromIterator(iter, options) {
     return new this(Object.assign({}, options, {
         async parallelRead() {
             const read = await iter.next();
             if (read.done) {
-                return read.value ? [read.value, null] : [null];
+                return read.value ? [await read.value, null] : [null];
             } else {
-                return [read.value];
+                return [await read.value];
             }
         }
     }));
@@ -1860,7 +1914,7 @@ DataStream$1.fromIterator =  function fromIterator(iter, options) {
  *
  * @example {@link ../samples/data-stream-keep.js}
  */
-DataStream$1.prototype.keep = function keep(count = -1) {
+DataStream.prototype.keep = function keep(count = -1) {
     if (count < 0)
         count = Infinity;
 
@@ -1894,7 +1948,7 @@ DataStream$1.prototype.keep = function keep(count = -1) {
  *
  * @example {@link ../samples/data-stream-reduce.js}
  */
-DataStream$1.prototype.reduce = function(func, into) {
+DataStream.prototype.reduce = function(func, into) {
 
     let last = Promise.resolve(into);
 
@@ -2017,7 +2071,7 @@ class StreamWorker {
 
         const sock = new net.Socket();
 
-        const _in = new DataStream$1();
+        const _in = new DataStream();
 
         const _out = _in.JSONStringify()
             .pipe(sock.connect(this.port, this.ip))
@@ -2234,21 +2288,86 @@ MultiStream.prototype.map =  function map(aFunc, rFunc) {
     );
 };
 
-const DataStream = require("../../").DataStream;
+const OUT = Symbol("output stream");
+
+
+
+/**
+ * Muxes the streams into a single one
+ *
+ * @todo For now using comparator will not affect the mergesort.
+ * @todo Sorting requires all the streams to be constantly flowing, any
+ *       single one drain results in draining the muxed too even if there
+ *       were possible data on other streams.
+ *
+ * @param  {ComparatorFunction} cmp Should return -1 0 or 1 depending on the
+ *                                  desired order. If passed the chunks will
+ *                                  be added in a sorted order.
+ * @return {DataStream}  The resulting DataStream
+ *
+ * @example {@link ../samples/multi-stream-mux.js}
+ */
+MultiStream.prototype.mux =  function mux(cmp, Clazz) {
+
+    this[OUT] = Clazz ? new Clazz() : new DataStream();
+
+    if (!cmp) {
+
+        const unpipeStream = (stream) => {
+            if (stream) stream.unpipe(this[OUT]);
+            this[OUT].setMaxListeners(this.streams.length);
+        };
+
+        const pipeStream = (stream) => {
+            this[OUT].setMaxListeners(this.streams.length);
+            stream.pipe(this[OUT], {end: false});
+        };
+
+        this.on("add", pipeStream);
+        this.on("remove", unpipeStream);
+
+        this.streams.forEach(pipeStream);
+
+        this.on("empty", () => this[OUT].end());
+
+        return this[OUT];
+    }
+
+    return mergesortStream(this, cmp, 0, Clazz);
+};
+
 const DefaultBufferLength = 16;
 
+/**
+ * Wraps comparator to accept array like
+ *
+ * @param {Function} comparator comparator function
+ * @return {number} order
+ */
 const wrapComparator = (comparator) => (a, b) => comparator(a[0], b[0]);
+/**
+ * The default comparator
+ * @param {*} a a
+ * @param {*} b b
+ * @return {number} order
+ */
 const DefaultComparator = (a, b) => {
     if (a < b) return -1;
     if (b < a) return 1;
     return 0;
 };
 
-const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
-
+/**
+ *
+ * @template Clazz
+ * @param {MultiStream} multi the input multi stream
+ * @param {Function} passedComparator the comparator
+ * @param {number} bufferLength number of objects to buffer
+ * @param {function(): PromiseTransformStream>} Clazz the type of stream it should return
+ * @return {function(): Clazz} the merged stream
+ */
+function mergesortStream(multi, passedComparator, bufferLength, Clazz) {
     bufferLength = bufferLength || DefaultBufferLength;
-
-    Clazz = Clazz || DataStream;
 
     const comparator = wrapComparator(passedComparator || DefaultComparator);
 
@@ -2261,13 +2380,13 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
     const onceTouchedStream = (stream) => {
         return Promise.race([
             new Promise((res) => stream.on("readable", res)),
-            endIndex.get(stream)
+            endIndex.get(stream),
         ]);
     };
 
     const getMoreItemsForEntry = (stream, arr) => {
         while (arr.length < bufferLength) {
-            let haveMore = stream.read();
+            const haveMore = stream.read();
 
             if (haveMore !== null)
                 arr.push(haveMore);
@@ -2287,9 +2406,9 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
 
     const getMoreItems = () => {
         const ret = [];
-        for (let entry of readIndex.entries()) {
+        for (const entry of readIndex.entries())
             ret.push(getMoreItemsForEntry(...entry));
-        }
+
 
         if (!ret.length)
             return Promise.resolve([]);
@@ -2302,12 +2421,12 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
         const arr = [];
         const arys = inArys.slice();
 
-        let min_length = 0;
+        let minLength = 0;
         let j = 0;
 
-        if (rest.length) {
+        if (rest.length)
             arys.push(rest);
-        }
+
 
         if (!arys.length)
             return [];
@@ -2315,28 +2434,26 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
         while (true) {  // eslint-disable-line
             let cnt = 0;
 
-            for (let ary of arys)
+            for (const ary of arys)
                 cnt += ary.length > j;
 
             if (cnt === arys.length) {
-                for (let i = 0; i < arys.length; i++) {
+                for (let i = 0; i < arys.length; i++)
                     arr.push([arys[i][j], i, j, arys[i].length - j - 1]);
-                }
-                min_length = ++j;
-            } else {
+
+                minLength = ++j;
+            } else
                 break;
-            }
         }
 
         arr.sort(comparator);
 
         const ret = [];
-        while (min_length > 0 && arr.length > 0) {
-
+        while (minLength > 0 && arr.length > 0) {
             const item = arr.shift();
             arys[item[1]].shift(item[2]);
             ret.push(item[0]);
-            min_length = item[3];
+            minLength = item[3];
         }
 
         return ret;
@@ -2345,9 +2462,9 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
     const writeSorted = (sorted) => {
         let ret = true;
 
-        for (var i = 0; i < sorted.length; i++) {
+        for (let i = 0; i < sorted.length; i++)
             ret = out.write(sorted[i]);
-        }
+
 
         return ret || new Promise((res) => out.once("drain", () => res(sorted.end)));
     };
@@ -2355,7 +2472,6 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
     let removing = null;
     let pushing = null;
     const pushMoreItems = () => {
-
         if (pushing)
             return pushing;
 
@@ -2374,11 +2490,12 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
                     () => {
                         pushing = null;
 
-                        if (readIndex.size) {
+                        if (readIndex.size)
                             pushMoreItems();
-                        } else if (rest.length) {
+                        else if (rest.length)
                             return writeSorted(rest.sort(passedComparator));
-                        }
+
+                        return null;
                     }
                 );
 
@@ -2416,7 +2533,7 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
                             rest.push(...items);
                         }
                     ),
-                removing
+                removing,
             ]).then(
                 () => readIndex.size ? pushMoreItems() : onEmpty()
             );
@@ -2424,57 +2541,11 @@ const mergesortStream = (multi, passedComparator, bufferLength, Clazz) => {
     ).then(
         pushMoreItems
     ).catch(
-        e => out.emit("error", e)
+        (e) => out.emit("error", e)
     );
 
     return out;
-};
-
-const OUT = Symbol("output stream");
-
-/**
- * Muxes the streams into a single one
- *
- * @todo For now using comparator will not affect the mergesort.
- * @todo Sorting requires all the streams to be constantly flowing, any
- *       single one drain results in draining the muxed too even if there
- *       were possible data on other streams.
- *
- * @param  {ComparatorFunction} cmp Should return -1 0 or 1 depending on the
- *                                  desired order. If passed the chunks will
- *                                  be added in a sorted order.
- * @return {DataStream}  The resulting DataStream
- *
- * @example {@link ../samples/multi-stream-mux.js}
- */
-MultiStream.prototype.mux =  function mux(cmp, Clazz) {
-
-    this[OUT] = Clazz ? new Clazz() : new DataStream$1();
-
-    if (!cmp) {
-
-        const unpipeStream = (stream) => {
-            if (stream) stream.unpipe(this[OUT]);
-            this[OUT].setMaxListeners(this.streams.length);
-        };
-
-        const pipeStream = (stream) => {
-            this[OUT].setMaxListeners(this.streams.length);
-            stream.pipe(this[OUT], {end: false});
-        };
-
-        this.on("add", pipeStream);
-        this.on("remove", unpipeStream);
-
-        this.streams.forEach(pipeStream);
-
-        this.on("empty", () => this[OUT].end());
-
-        return this[OUT];
-    }
-
-    return mergesortStream(this, cmp, 0, Clazz);
-};
+}
 
 /**
  * Removes a stream from the MultiStream
@@ -2592,7 +2663,7 @@ class MultiStream extends EventEmitter {
  *
  * @example {@link ../samples/data-stream-separate.js}
  */
-DataStream$1.prototype.separate = function separate(affinity, createOptions, CreateClass) {
+DataStream.prototype.separate = function separate(affinity, createOptions, CreateClass) {
     const ret = new MultiStream();
     const hashes = new Map();
 
@@ -2637,7 +2708,7 @@ DataStream$1.prototype.separate = function separate(affinity, createOptions, Cre
     return ret;
 };
 
-DataStream$1.prototype.group = DataStream$1.prototype.separate;
+DataStream.prototype.group = DataStream.prototype.separate;
 
 /**
  * Duplicate the stream
@@ -2649,7 +2720,7 @@ DataStream$1.prototype.group = DataStream$1.prototype.separate;
  *
  * @example {@link ../samples/data-stream-tee.js}
  */
-DataStream$1.prototype.tee = function(func) {
+DataStream.prototype.tee = function(func) {
     if (func instanceof Writable)
         return (this.tap().pipe(func), this);
     func(this.pipe(this._selfInstance()));
@@ -2669,7 +2740,7 @@ DataStream$1.prototype.tee = function(func) {
  *
  * @example {@link ../samples/data-stream-tojsonobject.js}
  */
-DataStream$1.prototype.toJSONObject = function toJSONObject(entryCallback, enclosure = ["{\n","\n}"], separator = ",\n") {
+DataStream.prototype.toJSONObject = function toJSONObject(entryCallback, enclosure = ["{\n","\n}"], separator = ",\n") {
     let ref = this;
 
     return ref.map((item) => [entryCallback(item), item])
@@ -2724,7 +2795,7 @@ class WindowStream extends NumberStream {}
  * @returns {WindowStream} a stream of array's
  * @meta.noreadme
  */
-DataStream$1.prototype.window = function window(length) {
+DataStream.prototype.window = function window(length) {
     if (!(+length > 0))
         throw new Error("Length argument must be a positive integer!");
 
@@ -2761,7 +2832,7 @@ DataStream$1.prototype.window = function window(length) {
  * @borrows DataStream#stringify as DataStream#toStringStream
  * @extends ScramjetStream
  */
-class DataStream$1 extends ScramjetStream {
+class DataStream extends ScramjetStream {
 
     constructor(opts) {
         super(Object.assign({
@@ -2786,7 +2857,7 @@ class DataStream$1 extends ScramjetStream {
  *
  * @extends DataStream
  */
-class NumberStream$1 extends DataStream$1 {
+class NumberStream$1 extends DataStream {
 
     /**
     * NumberStream options
@@ -2811,4 +2882,4 @@ class NumberStream$1 extends DataStream$1 {
 
 }
 
-export { DataStream$1 as DataStream, StringStream, BufferStream, WindowStream, MultiStream, NumberStream$1 as NumberStream, StreamError };
+export { DataStream, StringStream, BufferStream, WindowStream, MultiStream, NumberStream$1 as NumberStream, StreamError };

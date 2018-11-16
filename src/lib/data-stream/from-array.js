@@ -1,7 +1,7 @@
 import {DataStream} from ".";
 
 /**
- * Create a DataStream from an Array
+ * Create a DataStream from an Array.
  *
  * @param  {Array} arr list of chunks
  * @return {DataStream}

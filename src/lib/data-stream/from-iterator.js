@@ -15,9 +15,9 @@ DataStream.fromIterator =  function fromIterator(iter, options) {
         async parallelRead() {
             const read = await iter.next();
             if (read.done) {
-                return read.value ? [read.value, null] : [null];
+                return read.value ? [await read.value, null] : [null];
             } else {
-                return [read.value];
+                return [await read.value];
             }
         }
     }));

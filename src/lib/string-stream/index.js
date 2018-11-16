@@ -53,6 +53,7 @@ import "./lines";
 import "./match";
 import "./parse";
 import "./prepend";
+import "./replace";
 import "./shift";
 import "./split";
 import "./stringify";
