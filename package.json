@@ -75,7 +75,7 @@
     "through2": "^3.0.0"
   },
   "dependencies": {
-    "papaparse": "^4.6.2",
+    "papaparse": "^4.6.3",
     "rereadable-stream": "^1.2.0",
     "scramjet-core": "^4.18.1"
   }
