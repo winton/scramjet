@@ -36,7 +36,7 @@ var net = _interopDefault(require('net'));
  * @return {Promise}  resolved with the "into" object on stream end.
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-accumulate.js}
+ * @test test/methods/data-stream-accumulate.js
  */
 DataStream.prototype.accumulate = async function accumulate(func, into) {
     return new Promise((res, rej) => {
@@ -107,7 +107,7 @@ DataStream.prototype.do = function(func) {
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks
  *
- * @example {@link ../samples/data-stream-flatmap.js}
+ * @test test/methods/data-stream-flatmap.js
  */
 DataStream.prototype.flatMap = function flatMap(func, Clazz = DataStream) {
     const ref = new Clazz({referrer: this});
@@ -146,7 +146,7 @@ DataStream.prototype.flatMap = function flatMap(func, Clazz = DataStream) {
  * @param {Class} Clazz (optional) The class to be mapped to.
  * @chainable
  *
- * @example {@link ../samples/data-stream-map.js}
+ * @test test/methods/data-stream-map.js
  */
 DataStream.prototype.map = function (func, Clazz) {
     Clazz = Clazz || this.constructor;
@@ -178,7 +178,7 @@ DataStream.prototype.map = function (func, Clazz) {
  * function
  * @return {*} whatever was passed as into
  *
- * @example {@link ../samples/data-stream-reduceNow.js}
+ * @test test/methods/data-stream-reduceNow.js
  */
 DataStream.prototype.reduceNow = function reduceNow(func, into) {
     const prm = this.reduce(func, into);
@@ -224,7 +224,7 @@ DataStream.prototype.separateInto = function separateInto(streams, affinity) {
  * @param  {Number} ms    Maximum ammount of milliseconds
  * @param  {Number} count Maximum number of items in batch (otherwise no limit)
  *
- * @example {@link ../samples/data-stream-timebatch.js}
+ * @test test/methods/data-stream-timebatch.js
  */
 DataStream.prototype.timeBatch = function timeBatch(ms, count = Infinity) {
     let arr = [];
@@ -290,7 +290,7 @@ DataStream.prototype.unshift = function unshift(...items) {
  * @memberof DataStream#
  * @param {MapCallback|Object} func The function that returns new object properties or just the new properties
  *
- * @example {@link ../samples/data-stream-assign.js}
+ * @test test/methods/data-stream-assign.js
  */
 DataStream.prototype.assign = function assign(func) {
     if (typeof func === "function") {
@@ -312,7 +312,7 @@ DataStream.prototype.assign = function assign(func) {
  * @memberof StringStream#
  * @param {Function|String} arg the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
  *
- * @example {@link ../samples/string-stream-append.js}
+ * @test test/methods/string-stream-append.js
  */
 StringStream.prototype.append = function append(arg) {
     return typeof arg === "function" ? this.map(item => Promise.resolve(item).then(arg).then((result) => item + result)) : this.map(item => item + arg);
@@ -324,7 +324,7 @@ StringStream.prototype.append = function append(arg) {
  * @chainable
  * @param  {Number} number the desired chunk length
  * @return {BufferStream}  the resulting buffer stream.
- * @example {@link ../samples/buffer-stream-breakup.js}
+ * @test test/methods/buffer-stream-breakup.js
  */
 BufferStream.prototype.breakup = function breakup(number) {
     if (number <= 0 || !isFinite(+number))
@@ -378,7 +378,7 @@ BufferStream.from = function from(...args) {
  *
  * @param  {ParseCallback} parser The transform function
  * @return {DataStream}  The parsed objects stream.
- * @example {@link ../samples/buffer-stream-parse.js}
+ * @test test/methods/buffer-stream-parse.js
  */
 BufferStream.prototype.parse = function parse(parser) {
     return this.tap().map(parser, DataStream);
@@ -402,7 +402,7 @@ BufferStream.prototype.parse = function parse(parser) {
  * @param {ShiftCallback} func Function that receives a string of shifted bytes
  * @return {BufferStream} substream
  *
- * @example {@link ../samples/string-stream-shift.js}
+ * @test test/methods/string-stream-shift.js
  */
 BufferStream.prototype.shift = function(bytes, func) {
     const ret = Buffer.alloc(bytes);
@@ -455,7 +455,7 @@ BufferStream.prototype.shift = function(bytes, func) {
  * @param  {String|Buffer} splitter the buffer or string that the stream
  *                                  should be split by.
  * @return {BufferStream}  the re-split buffer stream.
- * @example {@link ../samples/buffer-stream-split.js}
+ * @test test/methods/buffer-stream-split.js
  */
 BufferStream.prototype.split = function split(splitter) {
     if (splitter instanceof Buffer || typeof splitter === "string") {
@@ -494,7 +494,7 @@ BufferStream.prototype.split = function split(splitter) {
  * @param  {String} encoding The encoding to be used to convert the buffers
  *                           to streams.
  * @return {StringStream}  The converted stream.
- * @example {@link ../samples/buffer-stream-tostringstream.js}
+ * @test test/methods/buffer-stream-tostringstream.js
  */
 BufferStream.prototype.stringify = function stringify(encoding) {
     return this.pipe(new StringStream(encoding || "utf-8", {objectMode: true}));
@@ -532,7 +532,7 @@ class BufferStream extends DataStream {
      * Creates the BufferStream
      *
      * @param {object} opts Stream options passed to superclass
-     * @example {@link ../samples/buffer-stream-constructor.js}
+     * @test test/methods/buffer-stream-constructor.js
      */
     constructor(...args) {
         super(...args);
@@ -559,7 +559,7 @@ class BufferStream extends DataStream {
  * @chainable
  * @return {BufferStream}  The converted stream.
  *
- * @example {@link ../samples/string-stream-tobufferstream.js}
+ * @test test/methods/string-stream-tobufferstream.js
  */
 StringStream.prototype.toBufferStream =  function toBufferStream() {
     return this.tap().map(
@@ -577,7 +577,7 @@ StringStream.prototype.toBufferStream =  function toBufferStream() {
  * @memberof StringStream#
  * @param options options for the papaparse.parse method.
  * @return {DataStream}  stream of parsed items
- * @example {@link ../samples/data-stream-separate.js}
+ * @test test/methods/data-stream-separate.js
  */
 StringStream.prototype.CSVParse = function CSVParse(options = {}) {
     const out = new DataStream();
@@ -662,7 +662,7 @@ StringStream.prototype.JSONParse = function JSONParse(perLine = true) {
  * @memberof StringStream#
  * @param  {String} [eol=/\r?\n/] End of line string
  *
- * @example {@link ../samples/string-stream-split.js}
+ * @test test/methods/string-stream-split.js
  */
 StringStream.prototype.lines = function lines(eol = /\r?\n/) {
     return this.split(eol);
@@ -675,7 +675,7 @@ StringStream.prototype.lines = function lines(eol = /\r?\n/) {
  * @param  {RegExp} matcher A function that will be called for every
  *                             stream chunk.
  *
- * @example {@link ../samples/string-stream-match.js}
+ * @test test/methods/string-stream-match.js
  */
 StringStream.prototype.match = function match(matcher) {
     if (matcher instanceof RegExp) {
@@ -717,7 +717,7 @@ StringStream.prototype.match = function match(matcher) {
  * @param  {ParseCallback} parser The transform function
  * @return {DataStream}  The parsed objects stream.
  *
- * @example {@link ../samples/string-stream-parse.js}
+ * @test test/methods/string-stream-parse.js
  */
 StringStream.prototype.parse =  function parse(parser, Clazz = DataStream) {
     return this.tap().map(parser, Clazz);
@@ -731,7 +731,7 @@ StringStream.prototype.parse =  function parse(parser, Clazz = DataStream) {
  * @param {Function|String} arg the argument to prepend. If function passed then it will be called and resolved
  *                              and the resolution will be prepended.
  *
- * @example {@link ../samples/string-stream-prepend.js}
+ * @test test/methods/string-stream-prepend.js
  */
 StringStream.prototype.prepend = function prepend(arg) {
     return typeof arg === "function" ? this.map(item => Promise.resolve(item).then(arg).then((result) => result + item)) : this.map(item => arg + item);
@@ -744,7 +744,7 @@ StringStream.prototype.prepend = function prepend(arg) {
  * @param  {RegExp} matcher A function that will be called for every
  *                             stream chunk.
  *
- * @example {@link ../samples/string-stream-match.js}
+ * @test test/methods/string-stream-match.js
  */
 StringStream.prototype.replace = function replace(needle, replacement, {windowSize = -2} = {}) {
     let replacing = "";
@@ -806,7 +806,7 @@ StringStream.prototype.replace = function replace(needle, replacement, {windowSi
  * @param {Number} bytes The number of characters to shift.
  * @param {ShiftCallback} func Function that receives a string of shifted chars.
  *
- * @example {@link ../samples/string-stream-shift.js}
+ * @test test/methods/string-stream-shift.js
  */
 StringStream.prototype.shift = function shift(bytes, func) {
     const ret = "";
@@ -861,7 +861,7 @@ StringStream.prototype.shift = function shift(bytes, func) {
  * @chainable
  * @param  {RegExp|String} splitter What to split by
  *
- * @example {@link ../samples/string-stream-split.js}
+ * @test test/methods/string-stream-split.js
  */
 StringStream.prototype.split = function split(splitter) {
     if (splitter instanceof RegExp || typeof splitter === "string") {
@@ -922,7 +922,7 @@ class StringStream extends DataStream {
      * @param  {String} encoding the encoding to use
      * @return {StringStream}  the created data stream
      *
-     * @example {@link ../samples/string-stream-constructor.js}
+     * @test test/methods/string-stream-constructor.js
      */
     constructor(encoding, options) {
 
@@ -954,7 +954,7 @@ class StringStream extends DataStream {
  * @param options options for the papaparse.unparse module.
  * @return {StringStream}  stream of parsed items
  *
- * @example {@link ../samples/data-stream-csv.js}
+ * @test test/methods/data-stream-csv.js
  */
 DataStream.prototype.CSVStringify = function CSVStringify(options = {}) {
     const Papa = require("papaparse");
@@ -1015,7 +1015,7 @@ DataStream.prototype.each = function (func) {
  * @memberof DataStream#
  * @return {DataStream}
  *
- * @example {@link ../samples/data-stream-flatten.js}
+ * @test test/methods/data-stream-flatten.js
  */
 DataStream.prototype.flatten = function flatten() {
     return this.into(
@@ -1051,7 +1051,7 @@ DataStream.prototype.flatten = function flatten() {
  * @param  {IntoCallback} func the method that processes incoming chunks
  * @param  {DataStream} into the DataStream derived class
  *
- * @example {@link ../samples/data-stream-into.js}
+ * @test test/methods/data-stream-into.js
  */
 DataStream.prototype.into = function (func, into) {
     if (!(into instanceof DataStream)) throw new Error("Stream must be passed!");
@@ -1112,7 +1112,7 @@ DataStream.prototype.nagle = function nagle(size = 32, ms = 10) {
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks
  *
- * @example {@link ../samples/data-stream-remap.js}
+ * @test test/methods/data-stream-remap.js
  */
 DataStream.prototype.remap = function remap(func, Clazz) {
 
@@ -1148,7 +1148,7 @@ DataStream.prototype.remap = function remap(func, Clazz) {
  * @param {Number} count The number of items to shift.
  * @param {ShiftCallback} func Function that receives an array of shifted items
  *
- * @example {@link ../samples/data-stream-shift.js}
+ * @test test/methods/data-stream-shift.js
  */
 DataStream.prototype.shift = function shift(count, func) {
     const ret = [];
@@ -1215,7 +1215,7 @@ DataStream.prototype.toArray =  function toArray(initial) {
  * @chainable
  * @param  {FilterCallback} func The condition check
  *
- * @example {@link ../samples/data-stream-until.js}
+ * @test test/methods/data-stream-until.js
  */
 DataStream.prototype.until = function(func) {
     return this.while((...args) => Promise.resolve(func(...args)).then((a) => !a));
@@ -1230,7 +1230,7 @@ DataStream.prototype.until = function(func) {
  * @memberof DataStream#
  * @param  {Number} count How many items to aggregate
  *
- * @example {@link ../samples/data-stream-batch.js}
+ * @test test/methods/data-stream-batch.js
  */
 DataStream.prototype.batch = function batch(count) {
     let arr = [];
@@ -1266,7 +1266,7 @@ DataStream.prototype.batch = function batch(count) {
  * @param  {Function} func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
  * @return {DataStream}  self
  *
- * @example {@link ../samples/data-stream-debug.js}
+ * @test test/methods/data-stream-debug.js
  */
 DataStream.prototype.debug = function debug(func) {
     debugger; // eslint-disable-line
@@ -1281,7 +1281,7 @@ DataStream.prototype.debug = function debug(func) {
  * @memberof DataStream#
  * @param  {Function} callback Function called when stream ends
  *
- * @example {@link ../samples/data-stream-empty.js}
+ * @test test/methods/data-stream-empty.js
  */
 DataStream.prototype.empty = function empty(callback) {
     let z = false;
@@ -1469,7 +1469,7 @@ DataStream.from = function(stream$$1, options, ...args) {
  * @memberof DataStream#
  * @param  {*|JoinCallback} item An object that should be interweaved between stream items
  *
- * @example {@link ../samples/data-stream-join.js}
+ * @test test/methods/data-stream-join.js
  */
 DataStream.prototype.join = function join(item) {
     const ref = this._selfInstance({referrer: this});
@@ -1557,7 +1557,7 @@ DataStream.prototype.rewind = function rewind(count = -1) {
  * @param {Number} [start=0] omit this number of entries.
  * @param {Number} [length=Infinity] get this number of entries to the resulting stream
  *
- * @example {@link ../samples/data-stream-slice.js}
+ * @test test/methods/data-stream-slice.js
  */
 DataStream.prototype.slice = function slice(start = 0, length = Infinity) {
     let n = 0;
@@ -1595,7 +1595,7 @@ DataStream.prototype.toGenerator =  function toGenerator() {
  * @chainable
  * @param {Function|String} func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module.
  * @param {*} [...args] any additional args top be passed to the module
- * @example {@link ../samples/data-stream-use.js}
+ * @test test/methods/data-stream-use.js
  */
 DataStream.prototype.use = function(func, ...args) {
     switch (typeof func) {
@@ -1616,7 +1616,7 @@ DataStream.prototype.use = function(func, ...args) {
  * @param  {MapCallback} serializer A method that converts chunks to buffers
  * @return {BufferStream}  the resulting stream
  *
- * @example {@link ../samples/data-stream-tobufferstream.js}
+ * @test test/methods/data-stream-tobufferstream.js
  */
 DataStream.prototype.bufferify = function (serializer) {
     return this.map(serializer, BufferStream);
@@ -1647,7 +1647,7 @@ DataStream.prototype.delegate = function delegate(delegateFunc, worker, plugins 
  * @param {*} item list of items to push at end
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-endwith.js}
+ * @test test/methods/data-stream-endwith.js
  */
 DataStream.prototype.endWith = function endWith(...items) {
     // TODO: overhead on unneeded transform, but requires changes in core.
@@ -1665,7 +1665,7 @@ DataStream.prototype.endWith = function endWith(...items) {
  * @param  {Array} arr list of chunks
  * @return {DataStream}
  *
- * @example {@link ../samples/data-stream-fromarray.js}
+ * @test test/methods/data-stream-fromarray.js
  */
 DataStream.fromArray = function fromArray(arr, options) {
     const ret = new this(options);
@@ -1727,7 +1727,7 @@ DataStream.prototype.run = async function () {
  * @param  {MapCallback} serializer A method that converts chunks to strings
  * @return {StringStream}  the resulting stream
  *
- * @example {@link ../samples/data-stream-tostringstream.js}
+ * @test test/methods/data-stream-tostringstream.js
  */
 DataStream.prototype.stringify =  function stringify(serializer) {
     return this.map(serializer, StringStream);
@@ -1744,7 +1744,7 @@ DataStream.prototype.toStringStream = DataStream.prototype.stringify;
  * @return {StringStream}
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-tojsonarray.js}
+ * @test test/methods/data-stream-tojsonarray.js
  */
 DataStream.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\n]"], separator = ",\n", stringify = JSON.stringify) {
     const ref = new StringStream({referrer: this});
@@ -1771,7 +1771,7 @@ DataStream.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\n]
  * @chainable
  * @param  {FilterCallback} func The condition check
  *
- * @example {@link ../samples/data-stream-while.js}
+ * @test test/methods/data-stream-while.js
  */
 DataStream.prototype.while = function(func) {
     let condition = true;
@@ -1801,7 +1801,7 @@ DataStream.prototype.while = function(func) {
  * @memberof DataStream#
  * @param  {*} streams Streams to be passed
  *
- * @example {@link ../samples/data-stream-concat.js}
+ * @test test/methods/data-stream-concat.js
  */
 DataStream.prototype.concat = function concat(...streams) {
     const out = this._selfInstance({referrer: this});
@@ -1878,7 +1878,7 @@ DataStream.prototype.distribute = function distribute(affinity, clusterFunc = nu
  * @chainable
  * @param  {FilterCallback} func The function that filters the object
  *
- * @example {@link ../samples/data-stream-filter.js}
+ * @test test/methods/data-stream-filter.js
  */
 DataStream.prototype.filter = function (func) {
     return this.pipe(this._selfInstance({
@@ -1896,7 +1896,7 @@ DataStream.prototype.filter = function (func) {
  * @param  {Iterator} iter the iterator object
  * @return {DataStream}
  *
- * @example {@link ../samples/data-stream-fromiterator.js}
+ * @test test/methods/data-stream-fromiterator.js
  */
 DataStream.fromIterator =  function fromIterator(iter, options) {
     return new this(Object.assign({}, options, {
@@ -1918,7 +1918,7 @@ DataStream.fromIterator =  function fromIterator(iter, options) {
  * @memberof DataStream#
  * @param {number} count Number of objects or -1 for all the stream
  *
- * @example {@link ../samples/data-stream-keep.js}
+ * @test test/methods/data-stream-keep.js
  */
 DataStream.prototype.keep = function keep(count = -1) {
     if (count < 0)
@@ -1952,7 +1952,7 @@ DataStream.prototype.keep = function keep(count = -1) {
  * @param  {ReduceCallback} func The into object will be passed as the  first argument, the data object from the stream as the second.
  * @param  {Object} into Any object passed initially to the transform function
  *
- * @example {@link ../samples/data-stream-reduce.js}
+ * @test test/methods/data-stream-reduce.js
  */
 DataStream.prototype.reduce = function(func, into) {
 
@@ -1981,7 +1981,7 @@ DataStream.prototype.reduce = function(func, into) {
  * @meta.noReadme
  * @param {stream.Readable} stream [description]
  *
- * @example {@link ../samples/multi-stream-add.js}
+ * @test test/methods/multi-stream-add.js
  */
 MultiStream.prototype.add =  function add(stream$$1) {
 
@@ -2207,7 +2207,7 @@ MultiStream.prototype.each =  function each(aFunc, rFunc) {
  *                                  return a promise or a boolean)
  * @return {MultiStream}  the filtered instance
  *
- * @example {@link ../samples/multi-stream-filter.js}
+ * @test test/methods/multi-stream-filter.js
  */
 MultiStream.prototype.filter =  function filter(func) {
     return Promise.all(
@@ -2257,7 +2257,7 @@ MultiStream.prototype.find =  function find(...args) {
  *                                  return a promise or an object)
  * @return {MultiStream}  the mapped instance
  *
- * @example {@link ../samples/multi-stream-map.js}
+ * @test test/methods/multi-stream-map.js
  */
 MultiStream.prototype.map =  function map(aFunc, rFunc) {
     return Promise.all(
@@ -2311,7 +2311,7 @@ const OUT = Symbol("output stream");
  *                                  be added in a sorted order.
  * @return {DataStream}  The resulting DataStream
  *
- * @example {@link ../samples/multi-stream-mux.js}
+ * @test test/methods/multi-stream-mux.js
  */
 MultiStream.prototype.mux =  function mux(cmp, Clazz) {
 
@@ -2562,7 +2562,7 @@ function mergesortStream(multi, passedComparator, bufferLength, Clazz) {
  * @meta.noReadme
  * @param {stream.Readable} stream [description]
  *
- * @example {@link ../samples/multi-stream-remove.js}
+ * @test test/methods/multi-stream-remove.js
  */
 MultiStream.prototype.remove =  function remove(stream$$1) {
 
@@ -2626,7 +2626,7 @@ class MultiStream extends events.EventEmitter {
      *                                     objects will be filtered out!)
      * @param  {Object} options Optional options for the super object. ;)
      *
-     * @example {@link ../samples/multi-stream-constructor.js}
+     * @test test/methods/multi-stream-constructor.js
      */
     constructor(streams, ...args) {
 
@@ -2667,7 +2667,7 @@ class MultiStream extends events.EventEmitter {
  * @param {Object} createOptions options to use to create the separated streams
  * @return {MultiStream} separated stream
  *
- * @example {@link ../samples/data-stream-separate.js}
+ * @test test/methods/data-stream-separate.js
  */
 DataStream.prototype.separate = function separate(affinity, createOptions, CreateClass) {
     const ret = new MultiStream();
@@ -2724,7 +2724,7 @@ DataStream.prototype.group = DataStream.prototype.separate;
  * @chainable
  * @param {TeeCallback|Writable} func The duplicate stream will be passed as first argument.
  *
- * @example {@link ../samples/data-stream-tee.js}
+ * @test test/methods/data-stream-tee.js
  */
 DataStream.prototype.tee = function(func) {
     if (func instanceof stream.Writable)
@@ -2744,7 +2744,7 @@ DataStream.prototype.tee = function(func) {
  * @return {StringStream}
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-tojsonobject.js}
+ * @test test/methods/data-stream-tojsonobject.js
  */
 DataStream.prototype.toJSONObject = function toJSONObject(entryCallback, enclosure = ["{\n","\n}"], separator = ",\n") {
     let ref = this;

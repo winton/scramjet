@@ -11,7 +11,7 @@ import { EventEmitter } from "events";
  * @meta.noReadme
  * @param {stream.Readable} stream [description]
  *
- * @example {@link ../samples/multi-stream-add.js}
+ * @test test/methods/multi-stream-add.js
  */
 MultiStream.prototype.add =  function add(stream) {
 

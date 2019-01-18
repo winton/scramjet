@@ -14,7 +14,7 @@ import {DataStream} from "./";
  * @param {Class} Clazz (optional) The class to be mapped to.
  * @chainable
  *
- * @example {@link ../samples/data-stream-map.js}
+ * @test test/methods/data-stream-map.js
  */
 DataStream.prototype.map = function (func, Clazz) {
     Clazz = Clazz || this.constructor;

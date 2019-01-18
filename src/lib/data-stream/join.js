@@ -15,7 +15,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @param  {*|JoinCallback} item An object that should be interweaved between stream items
  *
- * @example {@link ../samples/data-stream-join.js}
+ * @test test/methods/data-stream-join.js
  */
 DataStream.prototype.join = function join(item) {
     const ref = this._selfInstance({referrer: this});

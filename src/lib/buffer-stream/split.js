@@ -7,7 +7,7 @@ import {BufferStream} from "./";
  * @param  {String|Buffer} splitter the buffer or string that the stream
  *                                  should be split by.
  * @return {BufferStream}  the re-split buffer stream.
- * @example {@link ../samples/buffer-stream-split.js}
+ * @test test/methods/buffer-stream-split.js
  */
 BufferStream.prototype.split = function split(splitter) {
     if (splitter instanceof Buffer || typeof splitter === "string") {

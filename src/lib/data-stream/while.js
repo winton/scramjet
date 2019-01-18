@@ -8,7 +8,7 @@ import {DataStream} from "./";
  * @chainable
  * @param  {FilterCallback} func The condition check
  *
- * @example {@link ../samples/data-stream-while.js}
+ * @test test/methods/data-stream-while.js
  */
 DataStream.prototype.while = function(func) {
     let condition = true;

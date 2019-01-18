@@ -10,7 +10,7 @@ import { Writable } from "stream";
  * @chainable
  * @param {TeeCallback|Writable} func The duplicate stream will be passed as first argument.
  *
- * @example {@link ../samples/data-stream-tee.js}
+ * @test test/methods/data-stream-tee.js
  */
 DataStream.prototype.tee = function(func) {
     if (func instanceof Writable)

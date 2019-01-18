@@ -10,7 +10,7 @@ import {StringStream} from "../string-stream";
  * @param  {String} encoding The encoding to be used to convert the buffers
  *                           to streams.
  * @return {StringStream}  The converted stream.
- * @example {@link ../samples/buffer-stream-tostringstream.js}
+ * @test test/methods/buffer-stream-tostringstream.js
  */
 BufferStream.prototype.stringify = function stringify(encoding) {
     return this.pipe(new StringStream(encoding || "utf-8", {objectMode: true}));

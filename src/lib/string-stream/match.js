@@ -8,7 +8,7 @@ import {StringStream} from "./";
  * @param  {RegExp} matcher A function that will be called for every
  *                             stream chunk.
  *
- * @example {@link ../samples/string-stream-match.js}
+ * @test test/methods/string-stream-match.js
  */
 StringStream.prototype.match = function match(matcher) {
     if (matcher instanceof RegExp) {

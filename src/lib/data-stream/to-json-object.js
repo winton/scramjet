@@ -11,7 +11,7 @@ import {DataStream} from "./";
  * @return {StringStream}
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-tojsonobject.js}
+ * @test test/methods/data-stream-tojsonobject.js
  */
 DataStream.prototype.toJSONObject = function toJSONObject(entryCallback, enclosure = ["{\n","\n}"], separator = ",\n") {
     let ref = this;

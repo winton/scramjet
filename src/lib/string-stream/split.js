@@ -7,7 +7,7 @@ import {StringStream} from "./";
  * @chainable
  * @param  {RegExp|String} splitter What to split by
  *
- * @example {@link ../samples/string-stream-split.js}
+ * @test test/methods/string-stream-split.js
  */
 StringStream.prototype.split = function split(splitter) {
     if (splitter instanceof RegExp || typeof splitter === "string") {

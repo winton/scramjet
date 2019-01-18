@@ -10,7 +10,7 @@ import { StringStream } from "../string-stream";
  * @param options options for the papaparse.unparse module.
  * @return {StringStream}  stream of parsed items
  *
- * @example {@link ../samples/data-stream-csv.js}
+ * @test test/methods/data-stream-csv.js
  */
 DataStream.prototype.CSVStringify = function CSVStringify(options = {}) {
     const Papa = require("papaparse");

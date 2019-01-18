@@ -12,7 +12,7 @@ import { BufferStream } from "../buffer-stream";
  * @chainable
  * @return {BufferStream}  The converted stream.
  *
- * @example {@link ../samples/string-stream-tobufferstream.js}
+ * @test test/methods/string-stream-tobufferstream.js
  */
 StringStream.prototype.toBufferStream =  function toBufferStream() {
     return this.tap().map(

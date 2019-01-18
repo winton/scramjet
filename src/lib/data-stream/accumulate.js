@@ -23,7 +23,7 @@ import {PromiseTransformStream} from "scramjet-core";
  * @return {Promise}  resolved with the "into" object on stream end.
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-accumulate.js}
+ * @test test/methods/data-stream-accumulate.js
  */
 DataStream.prototype.accumulate = async function accumulate(func, into) {
     return new Promise((res, rej) => {

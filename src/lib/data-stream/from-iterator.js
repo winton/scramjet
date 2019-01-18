@@ -8,7 +8,7 @@ import {DataStream} from ".";
  * @param  {Iterator} iter the iterator object
  * @return {DataStream}
  *
- * @example {@link ../samples/data-stream-fromiterator.js}
+ * @test test/methods/data-stream-fromiterator.js
  */
 DataStream.fromIterator =  function fromIterator(iter, options) {
     return new this(Object.assign({}, options, {

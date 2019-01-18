@@ -15,7 +15,7 @@ import {DataStream} from "./";
  * @param {Number} [start=0] omit this number of entries.
  * @param {Number} [length=Infinity] get this number of entries to the resulting stream
  *
- * @example {@link ../samples/data-stream-slice.js}
+ * @test test/methods/data-stream-slice.js
  */
 DataStream.prototype.slice = function slice(start = 0, length = Infinity) {
     let n = 0;

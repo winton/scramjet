@@ -14,7 +14,7 @@ import { MultiStream } from "../multi-stream";
  * @param {Object} createOptions options to use to create the separated streams
  * @return {MultiStream} separated stream
  *
- * @example {@link ../samples/data-stream-separate.js}
+ * @test test/methods/data-stream-separate.js
  */
 DataStream.prototype.separate = function separate(affinity, createOptions, CreateClass) {
     const ret = new MultiStream();

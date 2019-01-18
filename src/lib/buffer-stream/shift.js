@@ -18,7 +18,7 @@ import {BufferStream} from "./";
  * @param {ShiftCallback} func Function that receives a string of shifted bytes
  * @return {BufferStream} substream
  *
- * @example {@link ../samples/string-stream-shift.js}
+ * @test test/methods/string-stream-shift.js
  */
 BufferStream.prototype.shift = function(bytes, func) {
     const ret = Buffer.alloc(bytes);

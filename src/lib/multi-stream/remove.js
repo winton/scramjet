@@ -10,7 +10,7 @@ import { EventEmitter } from "events";
  * @meta.noReadme
  * @param {stream.Readable} stream [description]
  *
- * @example {@link ../samples/multi-stream-remove.js}
+ * @test test/methods/multi-stream-remove.js
  */
 MultiStream.prototype.remove =  function remove(stream) {
 

@@ -7,7 +7,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @param  {*} streams Streams to be passed
  *
- * @example {@link ../samples/data-stream-concat.js}
+ * @test test/methods/data-stream-concat.js
  */
 DataStream.prototype.concat = function concat(...streams) {
     const out = this._selfInstance({referrer: this});

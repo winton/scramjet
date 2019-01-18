@@ -19,7 +19,7 @@ import {DataStream} from "./";
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks
  *
- * @example {@link ../samples/data-stream-remap.js}
+ * @test test/methods/data-stream-remap.js
  */
 DataStream.prototype.remap = function remap(func, Clazz) {
 

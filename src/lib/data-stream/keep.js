@@ -8,7 +8,7 @@ import {ReReadable} from "rereadable-stream";
  * @memberof DataStream#
  * @param {number} count Number of objects or -1 for all the stream
  *
- * @example {@link ../samples/data-stream-keep.js}
+ * @test test/methods/data-stream-keep.js
  */
 DataStream.prototype.keep = function keep(count = -1) {
     if (count < 0)

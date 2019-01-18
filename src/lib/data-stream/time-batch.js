@@ -9,7 +9,7 @@ import {DataStream} from ".";
  * @param  {Number} ms    Maximum ammount of milliseconds
  * @param  {Number} count Maximum number of items in batch (otherwise no limit)
  *
- * @example {@link ../samples/data-stream-timebatch.js}
+ * @test test/methods/data-stream-timebatch.js
  */
 DataStream.prototype.timeBatch = function timeBatch(ms, count = Infinity) {
     let arr = [];

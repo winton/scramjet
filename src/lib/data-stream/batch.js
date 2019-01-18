@@ -9,7 +9,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @param  {Number} count How many items to aggregate
  *
- * @example {@link ../samples/data-stream-batch.js}
+ * @test test/methods/data-stream-batch.js
  */
 DataStream.prototype.batch = function batch(count) {
     let arr = [];

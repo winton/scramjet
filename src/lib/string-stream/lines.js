@@ -7,7 +7,7 @@ import {StringStream} from "./";
  * @memberof StringStream#
  * @param  {String} [eol=/\r?\n/] End of line string
  *
- * @example {@link ../samples/string-stream-split.js}
+ * @test test/methods/string-stream-split.js
  */
 StringStream.prototype.lines = function lines(eol = /\r?\n/) {
     return this.split(eol);

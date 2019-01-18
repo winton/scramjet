@@ -14,7 +14,7 @@ import {DataStream} from "./";
  * @chainable
  * @param  {FilterCallback} func The function that filters the object
  *
- * @example {@link ../samples/data-stream-filter.js}
+ * @test test/methods/data-stream-filter.js
  */
 DataStream.prototype.filter = function (func) {
     return this.pipe(this._selfInstance({

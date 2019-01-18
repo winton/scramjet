@@ -27,7 +27,7 @@ export class BufferStream extends DataStream {
      * Creates the BufferStream
      *
      * @param {object} opts Stream options passed to superclass
-     * @example {@link ../samples/buffer-stream-constructor.js}
+     * @test test/methods/buffer-stream-constructor.js
      */
     constructor(...args) {
         super(...args);

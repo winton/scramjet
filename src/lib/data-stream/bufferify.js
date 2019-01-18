@@ -9,7 +9,7 @@ import {BufferStream} from "../buffer-stream";
  * @param  {MapCallback} serializer A method that converts chunks to buffers
  * @return {BufferStream}  the resulting stream
  *
- * @example {@link ../samples/data-stream-tobufferstream.js}
+ * @test test/methods/data-stream-tobufferstream.js
  */
 DataStream.prototype.bufferify = function (serializer) {
     return this.map(serializer, BufferStream);

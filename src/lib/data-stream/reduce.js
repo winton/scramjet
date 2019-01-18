@@ -24,7 +24,7 @@ import {PromiseTransformStream} from "scramjet-core";
  * @param  {ReduceCallback} func The into object will be passed as the  first argument, the data object from the stream as the second.
  * @param  {Object} into Any object passed initially to the transform function
  *
- * @example {@link ../samples/data-stream-reduce.js}
+ * @test test/methods/data-stream-reduce.js
  */
 DataStream.prototype.reduce = function(func, into) {
 

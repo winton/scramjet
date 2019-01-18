@@ -13,7 +13,7 @@ import { getCalleeDirname } from "../util";
  * @chainable
  * @param {Function|String} func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module.
  * @param {*} [...args] any additional args top be passed to the module
- * @example {@link ../samples/data-stream-use.js}
+ * @test test/methods/data-stream-use.js
  */
 DataStream.prototype.use = function(func, ...args) {
     switch (typeof func) {

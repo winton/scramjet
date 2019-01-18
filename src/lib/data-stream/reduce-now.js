@@ -24,7 +24,7 @@ import { EventEmitter } from "events";
  * function
  * @return {*} whatever was passed as into
  *
- * @example {@link ../samples/data-stream-reduceNow.js}
+ * @test test/methods/data-stream-reduceNow.js
  */
 DataStream.prototype.reduceNow = function reduceNow(func, into) {
     const prm = this.reduce(func, into);

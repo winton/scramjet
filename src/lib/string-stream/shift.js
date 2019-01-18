@@ -16,7 +16,7 @@ import {StringStream} from "./";
  * @param {Number} bytes The number of characters to shift.
  * @param {ShiftCallback} func Function that receives a string of shifted chars.
  *
- * @example {@link ../samples/string-stream-shift.js}
+ * @test test/methods/string-stream-shift.js
  */
 StringStream.prototype.shift = function shift(bytes, func) {
     const ret = "";

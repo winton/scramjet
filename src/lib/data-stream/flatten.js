@@ -10,7 +10,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @return {DataStream}
  *
- * @example {@link ../samples/data-stream-flatten.js}
+ * @test test/methods/data-stream-flatten.js
  */
 DataStream.prototype.flatten = function flatten() {
     return this.into(

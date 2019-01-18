@@ -7,7 +7,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @param  {Function} callback Function called when stream ends
  *
- * @example {@link ../samples/data-stream-empty.js}
+ * @test test/methods/data-stream-empty.js
  */
 DataStream.prototype.empty = function empty(callback) {
     let z = false;

@@ -8,7 +8,7 @@ import { DataStream } from "../data-stream";
  * @memberof StringStream#
  * @param options options for the papaparse.parse method.
  * @return {DataStream}  stream of parsed items
- * @example {@link ../samples/data-stream-separate.js}
+ * @test test/methods/data-stream-separate.js
  */
 StringStream.prototype.CSVParse = function CSVParse(options = {}) {
     const out = new DataStream();

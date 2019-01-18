@@ -12,7 +12,7 @@ export class MultiStream extends EventEmitter {
      *                                     objects will be filtered out!)
      * @param  {Object} options Optional options for the super object. ;)
      *
-     * @example {@link ../samples/multi-stream-constructor.js}
+     * @test test/methods/multi-stream-constructor.js
      */
     constructor(streams, ...args) {
 

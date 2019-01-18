@@ -18,7 +18,7 @@ import { DataStream } from "../data-stream";
  * @param  {ParseCallback} parser The transform function
  * @return {DataStream}  The parsed objects stream.
  *
- * @example {@link ../samples/string-stream-parse.js}
+ * @test test/methods/string-stream-parse.js
  */
 StringStream.prototype.parse =  function parse(parser, Clazz = DataStream) {
     return this.tap().map(parser, Clazz);

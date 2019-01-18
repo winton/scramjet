@@ -21,7 +21,7 @@ import {DataStream} from "./";
  * @param  {IntoCallback} func the method that processes incoming chunks
  * @param  {DataStream} into the DataStream derived class
  *
- * @example {@link ../samples/data-stream-into.js}
+ * @test test/methods/data-stream-into.js
  */
 DataStream.prototype.into = function (func, into) {
     if (!(into instanceof DataStream)) throw new Error("Stream must be passed!");

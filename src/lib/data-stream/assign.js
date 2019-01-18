@@ -10,7 +10,7 @@ import {DataStream} from "./";
  * @memberof DataStream#
  * @param {MapCallback|Object} func The function that returns new object properties or just the new properties
  *
- * @example {@link ../samples/data-stream-assign.js}
+ * @test test/methods/data-stream-assign.js
  */
 DataStream.prototype.assign = function assign(func) {
     if (typeof func === "function") {

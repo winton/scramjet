@@ -9,7 +9,7 @@ import {MultiStream} from "./";
  *                                  return a promise or a boolean)
  * @return {MultiStream}  the filtered instance
  *
- * @example {@link ../samples/multi-stream-filter.js}
+ * @test test/methods/multi-stream-filter.js
  */
 MultiStream.prototype.filter =  function filter(func) {
     return Promise.all(

@@ -19,7 +19,7 @@ export class StringStream extends DataStream {
      * @param  {String} encoding the encoding to use
      * @return {StringStream}  the created data stream
      *
-     * @example {@link ../samples/string-stream-constructor.js}
+     * @test test/methods/string-stream-constructor.js
      */
     constructor(encoding, options) {
 

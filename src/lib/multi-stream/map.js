@@ -12,7 +12,7 @@ import {MultiStream} from "./";
  *                                  return a promise or an object)
  * @return {MultiStream}  the mapped instance
  *
- * @example {@link ../samples/multi-stream-map.js}
+ * @test test/methods/multi-stream-map.js
  */
 MultiStream.prototype.map =  function map(aFunc, rFunc) {
     return Promise.all(

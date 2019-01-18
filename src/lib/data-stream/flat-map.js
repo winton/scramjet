@@ -12,7 +12,7 @@ import {DataStream} from "./";
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks
  *
- * @example {@link ../samples/data-stream-flatmap.js}
+ * @test test/methods/data-stream-flatmap.js
  */
 DataStream.prototype.flatMap = function flatMap(func, Clazz = DataStream) {
     const ref = new Clazz({referrer: this});

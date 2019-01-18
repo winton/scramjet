@@ -15,7 +15,7 @@ import {DataStream} from "./";
  * @param {Number} count The number of items to shift.
  * @param {ShiftCallback} func Function that receives an array of shifted items
  *
- * @example {@link ../samples/data-stream-shift.js}
+ * @test test/methods/data-stream-shift.js
  */
 DataStream.prototype.shift = function shift(count, func) {
     const ret = [];

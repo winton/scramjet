@@ -6,7 +6,7 @@ import {BufferStream} from "./";
  * @chainable
  * @param  {Number} number the desired chunk length
  * @return {BufferStream}  the resulting buffer stream.
- * @example {@link ../samples/buffer-stream-breakup.js}
+ * @test test/methods/buffer-stream-breakup.js
  */
 BufferStream.prototype.breakup = function breakup(number) {
     if (number <= 0 || !isFinite(+number))

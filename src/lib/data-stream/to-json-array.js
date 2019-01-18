@@ -10,7 +10,7 @@ import {StringStream} from "../string-stream";
  * @return {StringStream}
  * @meta.noreadme
  *
- * @example {@link ../samples/data-stream-tojsonarray.js}
+ * @test test/methods/data-stream-tojsonarray.js
  */
 DataStream.prototype.toJSONArray = function toJSONArray(enclosure = ["[\n", "\n]"], separator = ",\n", stringify = JSON.stringify) {
     const ref = new StringStream({referrer: this});

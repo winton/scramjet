@@ -17,7 +17,7 @@ const OUT = Symbol("output stream");
  *                                  be added in a sorted order.
  * @return {DataStream}  The resulting DataStream
  *
- * @example {@link ../samples/multi-stream-mux.js}
+ * @test test/methods/multi-stream-mux.js
  */
 MultiStream.prototype.mux =  function mux(cmp, Clazz) {
 
