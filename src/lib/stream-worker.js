@@ -2,7 +2,8 @@
  * @module ScramjetCore
  */
 
-import {DataStream, StringStream} from "../";
+import {DataStream} from "./data-stream";
+import {StringStream} from "./string-stream";
 import {fork} from "child_process";
 import os from "os";
 

@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var scramjetCore = require('scramjet-core');
@@ -13,6 +11,44 @@ var stream = require('stream');
 var rereadableStream = require('rereadable-stream');
 var child_process = require('child_process');
 var net = _interopDefault(require('net'));
+
+/**
+ * DataStream is the primary stream type for Scramjet. When you parse your
+ * stream, just pipe it you can then perform calculations on the data objects
+ * streamed through your flow.
+ *
+ * Use as:
+ *
+ * ```javascript
+ * const { DataStream } = require('scramjet');
+ *
+ * await (DataStream.from(aStream) // create a DataStream
+ *     .map(findInFiles)           // read some data asynchronously
+ *     .map(sendToAPI)             // send the data somewhere
+ *     .run());                    // wait until end
+ * ```
+ *
+ * @borrows DataStream#bufferify as DataStream#toBufferStream
+ * @borrows DataStream#stringify as DataStream#toStringStream
+ * @extends ScramjetStream
+ */
+class DataStream extends scramjetCore.ScramjetStream {
+
+    constructor(opts) {
+        super(Object.assign({
+            objectMode: true,
+            writableObjectMode: true,
+            readableObjectMode: true
+        }, opts));
+
+        this.TimeSource = Date;
+        this.setTimeout = setTimeout;
+        this.clearTimeout = clearTimeout;
+
+        this.buffer = null;
+    }
+
+}
 
 /**
  * @callback AccumulateCallback
@@ -306,6 +342,49 @@ DataStream.prototype.assign = function assign(func) {
 };
 
 /**
+ * A stream of string objects for further transformation on top of DataStream.
+ *
+ * Example:
+ *
+ * ```javascript
+ * StringStream.fromString()
+ * ```
+ *
+ * @extends DataStream
+ * @borrows StringStream#shift as StringStream#pop
+ */
+class StringStream extends DataStream {
+    /**
+     * Constructs the stream with the given encoding
+     *
+     * @param  {String} encoding the encoding to use
+     * @return {StringStream}  the created data stream
+     *
+     * @test test/methods/string-stream-constructor.js
+     */
+    constructor(encoding, options) {
+
+        super(typeof encoding === "string" ? options : encoding);
+        this.buffer = "";
+        this.encoding = typeof encoding === "string" ? encoding : "utf8";
+    }
+
+    /**
+     * Alias for {@link StringStream#parse}
+     * @function toDataStream
+     */
+
+    /**
+     * @meta.noReadme
+     * @ignore
+     */
+    async _transform(chunk) {
+        this.push(chunk.toString(this.encoding));
+    }
+
+}
+
+/**
  * Appends given argument to all the items.
  *
  * @chainable
@@ -317,6 +396,49 @@ DataStream.prototype.assign = function assign(func) {
 StringStream.prototype.append = function append(arg) {
     return typeof arg === "function" ? this.map(item => Promise.resolve(item).then(arg).then((result) => item + result)) : this.map(item => item + arg);
 };
+
+/**
+ * A factilitation stream created for easy splitting or parsing buffers.
+ *
+ * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
+ *
+ * A simple use case would be:
+ *
+ * ```javascript
+ *  fs.createReadStream('pixels.rgba')
+ *      .pipe(new BufferStream)         // pipe a buffer stream into scramjet
+ *      .breakup(4)                     // split into 4 byte fragments
+ *      .parse(buf => [
+ *          buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
+ *          buf.readInt8(1),            // values from 0-255 in an array.
+ *          buf.readInt8(2),
+ *          buf.readInt8(3)
+ *      ]);
+ * ```
+ *
+ * @extends DataStream
+ */
+class BufferStream extends DataStream {
+
+    /**
+     * Creates the BufferStream
+     *
+     * @param {object} opts Stream options passed to superclass
+     * @test test/methods/buffer-stream-constructor.js
+     */
+    constructor(...args) {
+        super(...args);
+        this._buffer = [];
+    }
+
+    /**
+     * @ignore
+     */
+    async _transform(chunk, encoding) {
+        this.push(Buffer.from(chunk, encoding));
+    }
+
+}
 
 /**
  * Breaks up a stream apart into chunks of the specified length
@@ -504,49 +626,6 @@ BufferStream.prototype.stringify = function stringify(encoding) {
  * Alias for {@link BufferStream#stringify}
  * @function toStringStream
  */
-
-/**
- * A factilitation stream created for easy splitting or parsing buffers.
- *
- * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
- *
- * A simple use case would be:
- *
- * ```javascript
- *  fs.createReadStream('pixels.rgba')
- *      .pipe(new BufferStream)         // pipe a buffer stream into scramjet
- *      .breakup(4)                     // split into 4 byte fragments
- *      .parse(buf => [
- *          buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
- *          buf.readInt8(1),            // values from 0-255 in an array.
- *          buf.readInt8(2),
- *          buf.readInt8(3)
- *      ]);
- * ```
- *
- * @extends DataStream
- */
-class BufferStream extends DataStream {
-
-    /**
-     * Creates the BufferStream
-     *
-     * @param {object} opts Stream options passed to superclass
-     * @test test/methods/buffer-stream-constructor.js
-     */
-    constructor(...args) {
-        super(...args);
-        this._buffer = [];
-    }
-
-    /**
-     * @ignore
-     */
-    async _transform(chunk, encoding) {
-        this.push(Buffer.from(chunk, encoding));
-    }
-
-}
 
 /**
  * Transforms the StringStream to BufferStream
@@ -902,49 +981,6 @@ StringStream.prototype.toStringStream = function toStringStream(encoding) {
     else
         return this;
 };
-
-/**
- * A stream of string objects for further transformation on top of DataStream.
- *
- * Example:
- *
- * ```javascript
- * StringStream.fromString()
- * ```
- *
- * @extends DataStream
- * @borrows StringStream#shift as StringStream#pop
- */
-class StringStream extends DataStream {
-    /**
-     * Constructs the stream with the given encoding
-     *
-     * @param  {String} encoding the encoding to use
-     * @return {StringStream}  the created data stream
-     *
-     * @test test/methods/string-stream-constructor.js
-     */
-    constructor(encoding, options) {
-
-        super(typeof encoding === "string" ? options : encoding);
-        this.buffer = "";
-        this.encoding = typeof encoding === "string" ? encoding : "utf8";
-    }
-
-    /**
-     * Alias for {@link StringStream#parse}
-     * @function toDataStream
-     */
-
-    /**
-     * @meta.noReadme
-     * @ignore
-     */
-    async _transform(chunk) {
-        this.push(chunk.toString(this.encoding));
-    }
-
-}
 
 /**
  * Stringifies CSV to DataString using 'papaparse' module.
@@ -1973,6 +2009,46 @@ DataStream.prototype.reduce = function(func, into) {
 // TODO: requires rethink/rewrite.
 
 /**
+ * An object consisting of multiple streams than can be refined or muxed.
+ */
+class MultiStream extends events.EventEmitter {
+
+    /**
+     * Crates an instance of MultiStream with the specified stream list
+     *
+     * @param  {stream.Readable[]} streams the list of readable streams (other
+     *                                     objects will be filtered out!)
+     * @param  {Object} options Optional options for the super object. ;)
+     *
+     * @test test/methods/multi-stream-constructor.js
+     */
+    constructor(streams, ...args) {
+
+        super(args.length ? args[0] : streams);
+
+        /**
+         * Array of all streams
+         * @type {Array}
+         */
+        this.streams = [];
+
+        if (Array.isArray(streams))
+            streams.forEach(
+                (str) => this.add(str)
+            );
+    }
+
+    /**
+     * Returns the current stream length
+     * @return {number}
+     */
+    get length() {
+        return this.streams.length;
+    }
+
+}
+
+/**
  * Adds a stream to the MultiStream
  *
  * If the stream was muxed, filtered or mapped, this stream will undergo the
@@ -2615,46 +2691,6 @@ MultiStream.prototype.smap = function smap(transform) {
 };
 
 /**
- * An object consisting of multiple streams than can be refined or muxed.
- */
-class MultiStream extends events.EventEmitter {
-
-    /**
-     * Crates an instance of MultiStream with the specified stream list
-     *
-     * @param  {stream.Readable[]} streams the list of readable streams (other
-     *                                     objects will be filtered out!)
-     * @param  {Object} options Optional options for the super object. ;)
-     *
-     * @test test/methods/multi-stream-constructor.js
-     */
-    constructor(streams, ...args) {
-
-        super(args.length ? args[0] : streams);
-
-        /**
-         * Array of all streams
-         * @type {Array}
-         */
-        this.streams = [];
-
-        if (Array.isArray(streams))
-            streams.forEach(
-                (str) => this.add(str)
-            );
-    }
-
-    /**
-     * Returns the current stream length
-     * @return {number}
-     */
-    get length() {
-        return this.streams.length;
-    }
-
-}
-
-/**
  * Separates execution to multiple streams using the hashes returned by the passed callback.
  *
  * Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
@@ -2819,44 +2855,6 @@ DataStream.prototype.window = function window(length) {
 };
 
 /**
- * DataStream is the primary stream type for Scramjet. When you parse your
- * stream, just pipe it you can then perform calculations on the data objects
- * streamed through your flow.
- *
- * Use as:
- *
- * ```javascript
- * const { DataStream } = require('scramjet');
- *
- * await (DataStream.from(aStream) // create a DataStream
- *     .map(findInFiles)           // read some data asynchronously
- *     .map(sendToAPI)             // send the data somewhere
- *     .run());                    // wait until end
- * ```
- *
- * @borrows DataStream#bufferify as DataStream#toBufferStream
- * @borrows DataStream#stringify as DataStream#toStringStream
- * @extends ScramjetStream
- */
-class DataStream extends scramjetCore.ScramjetStream {
-
-    constructor(opts) {
-        super(Object.assign({
-            objectMode: true,
-            writableObjectMode: true,
-            readableObjectMode: true
-        }, opts));
-
-        this.TimeSource = Date;
-        this.setTimeout = setTimeout;
-        this.clearTimeout = clearTimeout;
-
-        this.buffer = null;
-    }
-
-}
-
-/**
  * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
  * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
  * `reduce` etc.
@@ -2888,11 +2886,38 @@ class NumberStream$1 extends DataStream {
 
 }
 
-exports.ScramjetStream = scramjetCore.ScramjetStream;
-exports.DataStream = DataStream;
-exports.StringStream = StringStream;
-exports.BufferStream = BufferStream;
-exports.WindowStream = WindowStream;
-exports.MultiStream = MultiStream;
-exports.NumberStream = NumberStream$1;
-exports.StreamError = StreamError;
+/**
+ * Calculates the sum of all items in the stream.
+ *
+ * @async
+ * @return {Number}
+ */
+NumberStream$1.prototype.sum = async function sum() {
+    const _valueOf = this._valueOf;
+    return this.reduce((a, x) => a + _valueOf(x), 0);
+};
+
+/**
+ * Calculates the sum of all items in the stream.
+ *
+ * @async
+ * @return {Number}
+ */
+NumberStream$1.prototype.avg = async function avg() {
+    let cnt = 0;
+    const _valueOf = this._valueOf;
+    return this.reduce((a, x) => (cnt * a + _valueOf(x)) / ++cnt, 0);
+};
+
+var index = {
+    DataStream,
+    StringStream,
+    BufferStream,
+    WindowStream,
+    MultiStream,
+    NumberStream: NumberStream$1,
+    StreamError,
+    ScramjetStream: scramjetCore.ScramjetStream
+};
+
+module.exports = index;
