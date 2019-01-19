@@ -1,4 +1,4 @@
-import {ScramjetStream} from "scramjet-core";
+import {PromiseTransformStream} from "scramjet-core";
 
 /**
  * DataStream is the primary stream type for Scramjet. When you parse your
@@ -18,9 +18,9 @@ import {ScramjetStream} from "scramjet-core";
  *
  * @borrows DataStream#bufferify as DataStream#toBufferStream
  * @borrows DataStream#stringify as DataStream#toStringStream
- * @extends ScramjetStream
+ * @extends PromiseTransformStream
  */
-export class DataStream extends ScramjetStream {
+export class DataStream extends PromiseTransformStream {
 
     constructor(opts) {
         super(Object.assign({

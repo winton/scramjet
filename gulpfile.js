@@ -54,6 +54,14 @@ gulp.task("copy_docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
+gulp.task("copy_runtimes", function() {
+    const runtimes = ["src/lib/util/async-generator-constructor.js"];
+
+    return gulp
+        .src(runtimes)
+        .pipe(gulp.dest("dist/lib/"));
+});
+
 gulp.task("make_docs", full_docs(["lib/*.js"], corepath, {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]}, "docs/"));
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));

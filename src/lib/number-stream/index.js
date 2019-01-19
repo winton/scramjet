@@ -1,6 +1,4 @@
-import {NumberStream} from "./constructor";
+export {NumberStream} from "./constructor";
 
 import "./sum";
 import "./avg";
-
-export {NumberStream};

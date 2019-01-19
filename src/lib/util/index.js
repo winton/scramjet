@@ -11,9 +11,9 @@ export const getCalleeDirname = function(depth) {
 };
 
 export const AsyncGeneratorFunction = (() => {
-    let AsyncGeneratorFunction = function() {};
+    let AsyncGeneratorFunction = {};
     try {
-        AsyncGeneratorFunction = require("./util/async-generator-constructor"); // eslint-disable-line
+        AsyncGeneratorFunction = require("./async-generator-constructor"); // eslint-disable-line
     } catch (e) {} // eslint-disable-line
 
     return AsyncGeneratorFunction;
