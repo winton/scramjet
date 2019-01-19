@@ -5,7 +5,7 @@ import {NumberStream} from "./lib/number-stream";
 import {WindowStream} from "./lib/window-stream";
 import {MultiStream} from "./lib/multi-stream";
 import {StreamError} from  "./lib/errors";
-import {PromiseTransformStream} from "scramjet-core";
+import scramjet from "scramjet-core";
 
 export default {
     DataStream,
@@ -15,5 +15,5 @@ export default {
     MultiStream,
     NumberStream,
     StreamError,
-    PromiseTransformStream
+    ...scramjet
 };
