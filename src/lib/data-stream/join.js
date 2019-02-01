@@ -12,7 +12,6 @@ import {DataStream} from "./";
  * Method will put the passed object between items. It can also be a function call.
  *
  * @chainable
- * @memberof DataStream#
  * @param  {*|JoinCallback} item An object that should be interweaved between stream items
  *
  * @test test/methods/data-stream-join.js

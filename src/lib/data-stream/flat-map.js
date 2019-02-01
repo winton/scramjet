@@ -7,7 +7,6 @@ import {DataStream} from "./";
  * consist of all the items of the returned iterables, one iterable after another.
  *
  * @chainable
- * @memberof DataStream#
  * @param  {FlatMapCallback} func A callback that is called on every chunk
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks

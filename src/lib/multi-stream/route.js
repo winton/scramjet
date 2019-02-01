@@ -5,7 +5,6 @@ import { cpus } from "os";
  * Re-routes streams to a new MultiStream of specified size
  *
  * @meta.noreadme
- * @memberof MultiStream#
  * @todo NYT: not yet tested
  * @todo NYD: not yet documented
  * @param  {Function} [policy=Affinity.RoundRobin] [description]

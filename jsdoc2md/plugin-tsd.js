@@ -1,6 +1,6 @@
 const isChainable = (doclet) => doclet && doclet.comment.indexOf('chainable') >= 0;
 const isClassMember = ({kind}) => (kind === 'member' || kind === 'function');
-const injected = (doclet) => (doclet.tags || []).filter(({title}) => title === "inject").map(({value}) => value.trim());
+const injected = (doclet) => [doclet.longname, doclet.name];
 
 // const has = (doclet, tag) => doclet.comment.indexOf('@' + tag) >= 0
 
@@ -14,13 +14,16 @@ const matchLookup = (tag) => Object.keys(tagLookup)
     );
 
 const getLookupType = (type) => {
-    return Object.entries(tagLookup)
+    const outtype = Object
+        .entries(tagLookup)
         .reduce(
             (current, [_to, {longname: _from}]) => {
                 return current.replace(_from, _to)
             },
             type
         );
+
+    return outtype;
 };
 
 const replaceNames = {};
@@ -31,12 +34,12 @@ exports.handlers = {
     },
     newDoclet({doclet}) {
 
-        if (doclet.memberof === 'module:scramjet') {
+        if (!doclet.undocumented && doclet.memberof === 'module:scramjet') {
             injected(doclet)
                 .reduce(
                     (acc, symbol) => tagLookup[symbol] = doclet,
                     null
-                ) && (doclet.undocumented = true);
+                );
         }
 
         if (tagLookup[doclet.longname]) {
@@ -69,9 +72,13 @@ exports.handlers = {
                     }
                 );
         }
+
         if (!doclet.returns && isClassMember(doclet)) {
             if (doclet.async) {
-                doclet.returns = [{type: {names: ["Promise"]}}];
+                if (!doclet.returns) doclet.returns = [{type: {names: ["Promise"]}}];
+                else doclet.returns = doclet.returns && doclet.returns.forEach(
+                    x => x.type.names = x.type.names.map(name => `Promise<${name}>`)
+                );
             } else if (isChainable(doclet)) {
                 doclet.returns = [{type: {names: [getLookupType(doclet.memberof)]}}];
             }

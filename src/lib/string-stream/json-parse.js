@@ -5,7 +5,6 @@ import {StringStream} from "./";
  * Ignores empty lines
  *
  * @chainable
- * @memberof StringStream#
  * @param {Boolean} perLine instructs to split per line
  * @return {DataStream}  stream of parsed items
  */

@@ -16,6 +16,7 @@ import {PromiseTransformStream} from "scramjet-core";
  *     .run());                    // wait until end
  * ```
  *
+ * @template T
  * @borrows DataStream#bufferify as DataStream#toBufferStream
  * @borrows DataStream#stringify as DataStream#toStringStream
  * @extends PromiseTransformStream

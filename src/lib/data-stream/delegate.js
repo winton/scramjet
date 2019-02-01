@@ -5,7 +5,6 @@ import {DataStream} from "./";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param  {DelegateCallback} delegateFunc A function to be run in the subthread.
  * @param  {WorkerStream}     worker
  * @param  {Array}            [plugins=[]]

@@ -7,7 +7,6 @@ import {DataStream} from "./";
  * This is a synchronous only function.
  *
  * @chainable
- * @memberof DataStream#
  * @param {*} item list of items to unshift (you can pass more items)
  */
 DataStream.prototype.unshift = function unshift(...items) {

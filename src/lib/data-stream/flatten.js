@@ -7,7 +7,6 @@ import {DataStream} from "./";
  * More efficient equivalent of: .flatmap(i => i);
  *
  * @chainable
- * @memberof DataStream#
  * @return {DataStream}
  *
  * @test test/methods/data-stream-flatten.js

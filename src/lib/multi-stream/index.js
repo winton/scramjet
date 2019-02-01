@@ -1,4 +1,4 @@
-import {MultiStream} from "./constructor";
+export {MultiStream} from "./constructor";
 import "./add";
 import "./cluster";
 import "./each";
@@ -9,5 +9,3 @@ import "./mux";
 import "./remove";
 import "./route";
 import "./smap";
-
-export {MultiStream};

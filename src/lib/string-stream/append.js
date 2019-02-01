@@ -4,7 +4,6 @@ import {StringStream} from "./";
  * Appends given argument to all the items.
  *
  * @chainable
- * @memberof StringStream#
  * @param {Function|String} arg the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
  *
  * @test test/methods/string-stream-append.js

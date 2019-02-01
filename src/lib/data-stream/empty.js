@@ -4,7 +4,6 @@ import {DataStream} from "./";
  * Called only before the stream ends without passing any items
  *
  * @chainable
- * @memberof DataStream#
  * @param  {Function} callback Function called when stream ends
  *
  * @test test/methods/data-stream-empty.js

@@ -1,5 +1,5 @@
 /**
- * @module ScramjetCore
+ * @module scramjet
  */
 
 import {DataStream} from "./data-stream";

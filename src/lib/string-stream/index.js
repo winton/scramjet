@@ -1,4 +1,4 @@
-import { StringStream } from "./constructor";
+export { StringStream } from "./constructor";
 
 import "./append";
 import "./bufferify";
@@ -14,5 +14,3 @@ import "./replace";
 import "./shift";
 import "./split";
 import "./stringify";
-
-export {StringStream};

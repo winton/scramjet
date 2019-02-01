@@ -1,19 +1,20 @@
+/**
+ * @module scramjet
+ */
 import {DataStream} from "./lib/data-stream";
-import {StringStream} from "./lib/string-stream";
-import {BufferStream} from "./lib/buffer-stream";
-import {NumberStream} from "./lib/number-stream";
-import {WindowStream} from "./lib/window-stream";
-import {MultiStream} from "./lib/multi-stream";
-import {StreamError} from  "./lib/errors";
-import scramjet from "scramjet-core";
 
-export default {
-    DataStream,
-    StringStream,
-    BufferStream,
-    WindowStream,
-    MultiStream,
-    NumberStream,
-    StreamError,
-    ...scramjet
-};
+export {DataStream} from "./lib/data-stream";
+export {StringStream} from "./lib/string-stream";
+export {BufferStream} from "./lib/buffer-stream";
+export {NumberStream} from "./lib/number-stream";
+export {WindowStream} from "./lib/window-stream";
+export {MultiStream} from "./lib/multi-stream";
+
+export {
+    PromiseTransformStream,
+    MultiTransform,
+    ScramjetOptions,
+    StreamError
+} from "scramjet-core";
+
+export const from = (...args) => DataStream.from(...args);

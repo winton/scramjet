@@ -6,8 +6,8 @@ import {DataStream} from "./";
  * This can be used for microbatch processing.
  *
  * @chainable
- * @memberof DataStream#
  * @param  {Number} count How many items to aggregate
+ * @returns {DataStream<T[]>}
  *
  * @test test/methods/data-stream-batch.js
  */

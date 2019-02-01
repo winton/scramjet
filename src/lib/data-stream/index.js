@@ -1,4 +1,4 @@
-import {DataStream} from "./constructor";
+export {DataStream} from "./constructor";
 import "./accumulate";
 import "./consume";
 import "./do";
@@ -49,4 +49,3 @@ import "./tee";
 import "./to-json-object";
 import "./window";
 
-export {DataStream};

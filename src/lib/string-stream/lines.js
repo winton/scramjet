@@ -4,7 +4,6 @@ import {StringStream} from "./";
  * Splits the string stream by the specified regexp or string
  *
  * @chainable
- * @memberof StringStream#
  * @param  {String} [eol=/\r?\n/] End of line string
  *
  * @test test/methods/string-stream-split.js

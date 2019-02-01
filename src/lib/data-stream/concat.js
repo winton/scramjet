@@ -4,7 +4,6 @@ import {DataStream} from "./";
  * Returns a new stream that will append the passed streams to the callee
  *
  * @chainable
- * @memberof DataStream#
  * @param  {*} streams Streams to be passed
  *
  * @test test/methods/data-stream-concat.js

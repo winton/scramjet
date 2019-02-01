@@ -11,7 +11,6 @@ import {DataStream} from "./";
  * @deprecated use {@link DataStream#each} instead
  *
  * @async
- * @memberof DataStream#
  * @param  {Function}  func the consument
  * @meta.noreadme
  */

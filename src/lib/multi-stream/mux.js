@@ -75,7 +75,7 @@ const DefaultComparator = (a, b) => {
  * @param {MultiStream} multi the input multi stream
  * @param {Function} passedComparator the comparator
  * @param {number} bufferLength number of objects to buffer
- * @param {function(): PromiseTransformStream>} Clazz the type of stream it should return
+ * @param {function(): PromiseTransformStream} Clazz the type of stream it should return
  * @return {function(): Clazz} the merged stream
  */
 function mergesortStream(multi, passedComparator, bufferLength, Clazz) {

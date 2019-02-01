@@ -11,7 +11,6 @@ import {DataStream} from "./";
  * taken into account.
  *
  * @chainable
- * @memberof DataStream#
  * @param {Number} [start=0] omit this number of entries.
  * @param {Number} [length=Infinity] get this number of entries to the resulting stream
  *

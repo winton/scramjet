@@ -1,5 +1,5 @@
 import { DataStream } from "./";
-import { StreamError } from "../errors";
+import { StreamError } from "scramjet-core";
 import { Readable } from "stream";
 import { GeneratorFunction, AsyncGeneratorFunction, pipeIfTarget } from "../util";
 

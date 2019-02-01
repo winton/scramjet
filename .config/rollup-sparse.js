@@ -2,7 +2,7 @@ import pkg from '../package.json';
 import { resolve } from 'path';
 import npmResolve from 'rollup-plugin-node-resolve';
 import license from 'rollup-plugin-license';
-import { terser } from "rollup-plugin-terser";
+// import { terser } from "rollup-plugin-terser";
 import { eslint } from "rollup-plugin-eslint";
 
 export default [
@@ -10,8 +10,7 @@ export default [
         input: 'src/index.js',
         external: Object.keys(pkg.dependencies),
         output: [
-            { file: pkg.main, format: 'cjs' },
-            { file: pkg.module, format: 'es' }
+            { file: '.work/index.js', format: 'cjs' },
         ],
         plugins: [
             eslint({
@@ -44,7 +43,7 @@ export default [
                 // ES2015 modules
                 // modulesOnly: true, // Default: false
             }),
-            terser({}),
+            // terser({}),
             license({
                 sourcemap: true,
                 cwd: '../', // Default is process.cwd()
@@ -52,13 +51,6 @@ export default [
                 banner: {
                     file: resolve(__dirname, '../LICENSE'),
                     encoding: 'utf-8', // Default is utf-8
-
-                    // Optional, may be an object or a function returning an object.
-                    data() {
-                        return {
-                            foo: 'foo',
-                        };
-                    },
                 }
             })
         ]

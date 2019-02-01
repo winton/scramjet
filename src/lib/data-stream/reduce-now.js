@@ -17,7 +17,6 @@ import { EventEmitter } from "events";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param  {ReduceCallback} func The into object will be passed as the first
  * argument, the data object from the stream as the second.
  * @param  {*|EventEmitter} into Any object passed initally to the transform

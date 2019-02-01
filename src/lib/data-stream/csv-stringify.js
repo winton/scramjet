@@ -6,7 +6,6 @@ import { StringStream } from "../string-stream";
  * Stringifies CSV to DataString using 'papaparse' module.
  *
  * @chainable
- * @memberof DataStream#
  * @param options options for the papaparse.unparse module.
  * @return {StringStream}  stream of parsed items
  *

@@ -4,7 +4,6 @@ import {DataStream} from ".";
  * Pushes any data at end of stream
  *
  * @chainable
- * @memberof DataStream#
  * @param {*} item list of items to push at end
  * @meta.noreadme
  *

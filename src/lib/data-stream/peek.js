@@ -5,7 +5,6 @@ import {DataStream} from "./";
  *
  * Important: Peek does not resume the flow.
  *
- * @memberof DataStream#
  * @param  {Number} count The number of items to view before
  * @param  {ShiftCallback} func Function called before other streams
  * @chainable

@@ -5,7 +5,6 @@ import {DataStream} from "./";
  *
  * @chainable
  * @meta.noreadme
- * @memberof DataStream#
  * @param {Object<DataStream>} streams the object hash of streams. Keys must be the outputs of the affinity function
  * @param {AffinityCallback} affinity the callback function that affixes the item to specific streams which must exist in the object for each chunk.
  */

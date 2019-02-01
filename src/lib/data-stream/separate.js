@@ -9,7 +9,6 @@ import { MultiStream } from "../multi-stream";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param {AffinityCallback} affinity the callback function
  * @param {Object} createOptions options to use to create the separated streams
  * @return {MultiStream} separated stream

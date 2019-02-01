@@ -7,8 +7,7 @@ import {DataStream} from "./";
  * The original objects are unaltered.
  *
  * @chainable
- * @memberof DataStream#
- * @param {MapCallback|Object} func The function that returns new object properties or just the new properties
+ * @param {DataStream.MapCallback|Object} func The function that returns new object properties or just the new properties
  *
  * @test test/methods/data-stream-assign.js
  */

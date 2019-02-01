@@ -5,7 +5,6 @@ import {ReReadable} from "rereadable-stream";
  * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
  *
  * @chainable
- * @memberof DataStream#
  * @param {number} count Number of objects or -1 for all the stream
  *
  * @test test/methods/data-stream-keep.js

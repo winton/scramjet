@@ -5,7 +5,6 @@ import {StringStream} from "../string-stream";
  * Transforms the stream to a streamed JSON array.
  *
  * @chainable
- * @memberof DataStream#
  * @param  {Iterable} [enclosure='[]'] Any iterable object of two items (begining and end)
  * @return {StringStream}
  * @meta.noreadme

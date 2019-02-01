@@ -5,7 +5,6 @@ import {DataStream} from "./";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param  {MapCallback} [entryCallback] async function returning an entry (array of [key, value])
  * @param  {Iterable} [enclosure='{}'] Any iterable object of two items (begining and end)
  * @return {StringStream}

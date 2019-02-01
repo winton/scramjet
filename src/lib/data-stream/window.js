@@ -4,7 +4,6 @@ import {WindowStream} from "../window-stream";
 /**
  * Returns a WindowStream of the specified length
  *
- * @memberof DataStream#
  * @chainable
  * @param {Number} length
  * @returns {WindowStream} a stream of array's

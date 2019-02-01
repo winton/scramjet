@@ -15,7 +15,6 @@ import { cpus } from "os";
  * Distributes processing to multiple forked subprocesses.
  *
  * @chainable
- * @memberof MultiStream#
  * @param {Function|String} clusterFunc a cluster callback with all operations working similarily to DataStream::use
  * @param {DistributeOptions} options
  */

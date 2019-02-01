@@ -5,7 +5,6 @@ import { DataStream } from "../data-stream";
  * Parses CSV to DataString using 'papaparse' module.
  *
  * @chainable
- * @memberof StringStream#
  * @param options options for the papaparse.parse method.
  * @return {DataStream}  stream of parsed items
  * @test test/methods/data-stream-separate.js

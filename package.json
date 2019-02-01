@@ -38,6 +38,7 @@
     "parser"
   ],
   "scripts": {
+    "pre-build": "rollup -c ./.config/rollup-sparse.js",
     "build": "rollup -c ./.config/rollup-build.js && npm run copy_runtimes",
     "test": "npm run build && gulp fulltest",
     "quicktest": "npm run build && gulp test",
@@ -75,8 +76,12 @@
     "nodeunit-tape-compat": "^1.1.6",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
+    "rimraf": "^2.6.3",
     "rollup": "^0.66.6",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-license": "^0.8.1",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^4.0.2",
     "sucrase": "^3.5.0",
     "tape": "^4.9.1",
     "through2": "^2.0.3"

@@ -14,7 +14,6 @@ import {DataStream} from "./";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param  {RemapCallback} func A callback that is called on every chunk
  * @param  {class} Clazz Optional DataStream subclass to be constructed
  * @return {DataStream}  a new DataStream of the given class with new chunks

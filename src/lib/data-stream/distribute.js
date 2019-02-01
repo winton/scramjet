@@ -8,7 +8,6 @@ import { cpus } from "os";
  * @todo Example test breaks travis build
  *
  * @chainable
- * @memberof DataStream#
  * @param {AffinityCallback|Number} [affinity] Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads.
  * @param {ClusterCallback} clusterFunc stream transforms similar to {@see DataStream#use method}
  * @param {Object} options Options

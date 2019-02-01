@@ -6,7 +6,6 @@ import {DataStream} from "./";
  * Does not preserve order, does not end this stream.
  *
  * @async
- * @memberof DataStream#
  * @param {Readable} incoming
  * @returns {Number} resolved when incoming stream ends, rejects on incoming error
  *

@@ -11,7 +11,6 @@ import {DataStream} from "./";
  * Shifts the first n items from the stream and pushes out the remaining ones.
  *
  * @chainable
- * @memberof DataStream#
  * @param {Number} count The number of items to shift.
  * @param {ShiftCallback} func Function that receives an array of shifted items
  *

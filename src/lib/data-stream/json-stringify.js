@@ -6,7 +6,6 @@ import { EOL } from "os";
  *
  * @meta.noreadme
  * @chainable
- * @memberof DataStream#
  * @param  {Boolean|String} [endline=os.EOL] whether to add endlines (boolean or string as delimiter)
  * @return {StringStream}  output stream
  */

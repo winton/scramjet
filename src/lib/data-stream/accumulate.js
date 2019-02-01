@@ -2,10 +2,11 @@ import {DataStream} from "./";
 import {PromiseTransformStream} from "scramjet-core";
 
 /**
+ * @template T,S
  * @callback AccumulateCallback
  * @param {*} acc Accumulator passed to accumulate function
- * @param {*} chunk the stream chunk
- * @return {Promise|*} resolved when all operations are completed
+ * @param {T} chunk the stream chunk
+ * @return {Promise<S>|S} resolved when all operations are completed
  */
 
 /**
@@ -17,10 +18,10 @@ import {PromiseTransformStream} from "scramjet-core";
  * Method is parallel
  *
  * @async
- * @memberof DataStream#
- * @param  {AccumulateCallback} func The accumulation function
+ * @template S
+ * @param  {AccumulateCallback<T,S>} func The accumulation function
  * @param  {*} into Accumulator object
- * @return {Promise}  resolved with the "into" object on stream end.
+ * @return {Promise<S[]>}  resolved with the "into" object on stream end.
  * @meta.noreadme
  *
  * @test test/methods/data-stream-accumulate.js
