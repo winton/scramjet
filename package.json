@@ -60,7 +60,6 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^1.0.4",
-    "@sucrase/gulp-plugin": "^2.0.0",
     "dmd": "^3.0.12",
     "eslint": "^5.12.1",
     "eslint-config-defaults": "^9.0.0",
@@ -82,7 +81,6 @@
     "rollup-plugin-license": "^0.8.1",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-terser": "^4.0.2",
-    "sucrase": "^3.5.0",
     "tape": "^4.9.1",
     "through2": "^2.0.3"
   },

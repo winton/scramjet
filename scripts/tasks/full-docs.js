@@ -1,7 +1,7 @@
 const gulp = require("gulp");
-const {DataStream} = require("../../");
 const {jsdoc2md} = require("scramjet-core/scripts/lib/util");
 const rename = require("gulp-rename");
+const through2 = require("through2");
 const log = require("fancy-log");
 const {promisify} = require("util");
 const fs = require("fs");
@@ -9,8 +9,8 @@ const path = require("path");
 
 module.exports = (source, corepath, jd2mdConfig, dest) => {
     return function makeDocs() {
-        return DataStream.from(gulp.src(source))
-            .map(async (file) => {
+        return gulp.src(source)
+            .pipe(through2((file, _, done) => (async () => {
                 const files = [file.path];
                 const corefile = path.resolve(corepath, path.basename(file.path));
 
@@ -22,7 +22,7 @@ module.exports = (source, corepath, jd2mdConfig, dest) => {
                 file.contents = Buffer.from(output);
 
                 return file;
-            })
+            })().then(done)()))
             .on("error", function(err) {
                 log.error("jsdoc2md failed", err.stack);
             })
