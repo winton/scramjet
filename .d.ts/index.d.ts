@@ -5,14 +5,23 @@ import {EventEmitter} from "events";
 type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]: {next(): Promise<{value: T, done: boolean}>}}
 type AsyncFunction = (...args: any[]) => Promise<any>;
 
-function pipelineOverride(...a: never[]): never;
-namespace pipelineOverride {
-    function __promisify__(...a: never[]): never;
+declare function pipelineOverride(...a: any[]): any;
+declare namespace pipelineOverride {
+    function __promisify__(...a: any[]): any;
 }
 
-class PromiseTransform extends Transform {
+declare function dataStreamPipeline<T extends DataStream>(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): T;
+declare namespace dataStreamPipeline {
+    function __promisify__(...a: any[]): () => Promise<any>;
+}
+
+declare class PromiseTransform extends Transform {
     static pipeline: typeof pipelineOverride | never;
 }
+
+type PipeOptions = {
+    end: boolean | undefined;
+};
 /**
  * Creates a DataStream that's piped from the passed readable.
  * @param input argument to be turned into new stream
@@ -314,7 +323,7 @@ declare class DataStream extends PromiseTransform {
      * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
      * @returns a new DataStream instance of the resulting pipeline
      */
-    static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): DataStream;
+    static pipeline: typeof dataStreamPipeline; // returns;
 
     /**
      * Stops merging transform Functions at the current place in the command chain.
@@ -433,7 +442,7 @@ declare class DataStream extends PromiseTransform {
      * @param to Writable stream to write to
      * @param options
      */
-    pipe(to: Writable, options?: WritableOptions): Writable;
+    pipe<T extends any>(to: T, options?: PipeOptions): T;
 
     /**
      * Creates a BufferStream.
@@ -1014,10 +1023,10 @@ declare class StringStream extends DataStream {
      * Creates a pipeline of streams and returns a scramjet stream.
      * @see DataStream.pipeline
      * @param readable the initial readable argument that is streamable by scramjet.from
-     * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+     * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
      * @returns a new StringStream instance of the resulting pipeline
      */
-    static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, transforms: AsyncFunction | Function | Transform): StringStream;
+    static pipeline: typeof dataStreamPipeline; // returns;
 
     /**
      * Create StringStream from anything.
@@ -1163,7 +1172,7 @@ declare class BufferStream extends DataStream {
      * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
      * @returns a new StringStream instance of the resulting pipeline
      */
-    static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): BufferStream;
+    static pipeline: typeof dataStreamPipeline; // returns;
 
     /**
      * Create BufferStream from anything.

@@ -74,7 +74,12 @@ function publish(data, opts) {
 
     const typedefs = parser.generateTypeDefinition()
         .replace(/\.</g, "<")
-        .replace("declare class DataStream {", "declare class DataStream extends PromiseTransform {");
+        .replace("declare class DataStream {", "declare class DataStream extends PromiseTransform {")
+        .replace("pipe(to: T, options?: PipeOptions): T;", "pipe<T extends any>(to: T, options?: PipeOptions): T;")
+        .replace("static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): DataStream", "static pipeline: typeof dataStreamPipeline; // returns")
+        .replace("static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): StringStream", "static pipeline: typeof dataStreamPipeline; // returns")
+        .replace("static pipeline(readable: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, ...transforms: any[]): BufferStream", "static pipeline: typeof dataStreamPipeline; // returns")
+    ;
 
     try {
         fs.writeFileSync(

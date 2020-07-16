@@ -48,7 +48,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.until(func)](#module_scramjet.DataStream+until) ↺
     * [dataStream.catch(callback)](#module_scramjet.DataStream+catch) ↺
     * [dataStream.raise(err)](#module_scramjet.DataStream+raise)
-    * [dataStream.pipe(to, [options])](#module_scramjet.DataStream+pipe) ↺ <code>Writable</code>
+    * [dataStream.pipe(to, [options])](#module_scramjet.DataStream+pipe) ↺ <code>T</code>
     * [dataStream.bufferify(serializer)](#module_scramjet.DataStream+bufferify) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [dataStream.stringify([serializer])](#module_scramjet.DataStream+stringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.toArray([initial])](#module_scramjet.DataStream+toArray) ⇄ <code>Array.&lt;any&gt;</code>
@@ -483,19 +483,19 @@ The returned promise will always be resolved even if there are no successful han
 
 <a name="module_scramjet.DataStream+pipe"></a>
 
-### dataStream.pipe(to, [options]) : Writable ↺
+### dataStream.pipe(to, [options]) : T ↺
 Override of node.js Readable pipe.
 
 Except for calling overridden method it proxies errors to piped stream.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 **Chainable**  
-**Returns**: <code>Writable</code> - the `to` stream  
+**Returns**: <code>T</code> - the `to` stream  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| to | <code>Writable</code> |  | Writable stream to write to |
-| [options] | <code>WritableOptions</code> | <code>{}</code> |  |
+| to | <code>T</code> |  | Writable stream to write to |
+| [options] | <code>PipeOptions</code> | <code>{}</code> |  |
 
 <a name="module_scramjet.DataStream+bufferify"></a>
 
