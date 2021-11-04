@@ -19,6 +19,8 @@ declare class PromiseTransform implements Readable, Writable {
     setDefaultEncoding(encoding: BufferEncoding): this;
     cork(): void;
     uncork(): void;
+    readableAborted: boolean
+    readableDidRead: boolean
     readableEncoding: BufferEncoding;
     readableEnded: boolean;
     readableFlowing: boolean;
